@@ -1,8 +1,13 @@
 
 ---
 
-# **docker-radiation-store**  
-A Docker setup for using **MCAPL tools** with the **EEE radiation store Gazebo simulation**, facilitated throught **Docker Compose**.
+# **Safe-ROS**  
+An Architecture for Autonomous Robots in Safety-Critical Domains
+---
+
+This repository provides a Docker-based setup for experimenting with [MCAPL](https://github.com/mcapl/mcapl) tools in the [EEE Radiation Store Gazebo simulation](https://github.com/EEEManchester/gazebo_radiation_plugin), facilitated via Docker Compose. It integrates key components for autonomous robot development and verification, including [FRET](https://github.com/NASA-SW-VnV/fret) for formal requirements elicitation, [Java ROSBridge](https://github.com/h2r/java_rosbridge) for communication with ROS, [AgileX robotic packages](https://github.com/agilexrobotics/scout_ros) for robot control and simulation, and [Dafny](https://dafny.org/) for formal verification.
+
+
 
 ---
 
@@ -140,6 +145,19 @@ At this point you'll se the **MCAPL** project in intellij interface.
 
 ---
 
+## **MCAPL and ROS Bridge Setup**  
+
+1.  In IntelliJ, open the **MCAPL** project and navigate to:  
+   ```
+   src/examples/gwendolen/agilex/remote_inspection.ail
+   ```
+4. Right-click **`remote-inspection.ail`** → **Run As > Run Configurations**  
+
+![IntelliJ](Intellij.png)
+
+
+---
+
 ## **Java_rosbridge Setup**  
 
 > **Note**  
@@ -171,16 +189,4 @@ After running the above commands, a new folder named **`target`** will be create
 This enables communication between **Gwendolen** and **ROS (via ROS Bridge)**.  
 > If you're adding additional messages, modify the `.jar` file accordingly.
 
----
 
-## **MCAPL and ROS Bridge Setup**  
-
-1.  In IntelliJ, open the **MCAPL** project and navigate to:  
-   ```
-   src/examples/gwendolen/agilex/remote_inspection
-   ```
-4. Right-click **`remote-inspection.ail`** → **Run As > Run Configurations**  
-
-![IntelliJ](Intellij.png)
-
----
