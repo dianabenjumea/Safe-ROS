@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+
+import rospy
+from std_msgs.msg import Bool
+
+class GwendolenControl:
+    def __init__(self):
+        rospy.init_node('gwendolen_control_node', anonymous=True)
+        self.control_pub = rospy.Publisher('/gwendolen_control', Bool, queue_size=10)
+        rospy.sleep(1.0)
+        rospy.loginfo("Gwendolen control node initialized")
+        rospy.on_shutdown(self.shutdown_hook)
+
+    def stop_moving(self):
+        rospy.loginfo("Sending STOP (True) to /gwendolen_control")
+        self.control_pub.publish(Bool(True))  # Stop signal
+
+    def resume_moving(self):
+        rospy.loginfo("Sending RESUME (False) to /gwendolen_control")
+        self.control_pub.publish(Bool(False))  # Resume signal
+
+    def shutdown_hook(self):
+        rospy.loginfo("Node shutting down, sending resume command")
+        self.resume_moving()
+
+if __name__ == '__main__':
+    try:
+        controller = GwendolenControl()
+        rate = rospy.Rate(0.2)  # Every 5 seconds
+        toggle = True
+        while not rospy.is_shutdown():
+            if toggle:
+                controller.stop_moving()
+            else:
+                controller.resume_moving()
+            toggle = not toggle
+            rate.sleep()
+    except rospy.ROSInterruptException:
+        rospy.loginfo("Gwendolen control node interrupted.")

@@ -1,0 +1,23 @@
+<?xml version='1'?>
+<launch>
+    <!-- Velodyne driver 
+    <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch"/> -->
+
+
+    <!-- Convert pointcloud to /scan -->
+    <include file="$(find pointcloud_to_laserscan)/launch/point_to_scan.launch"/>
+
+    <!-- Odometry from laser scan -->
+    <node pkg="rf2o_laser_odometry" type="rf2o_laser_odometry_node" name="rf2o_laser_odometry" output="screen">
+      <param name="laser_scan_topic" value="/scan"/>      
+      <param name="odom_topic" value="/odom"/>           
+      <param name="base_frame_id" value="base_link"/>    
+      <param name="odom_frame_id" value="odom"/>         
+      <param name="publish_tf" value="false"/>            
+      <param name="init_pose_from_topic" value=""/>      
+      <param name="freq" value="10.0"/>                  
+      <param name="verbose" value="true"/>               
+    </node>
+
+
+</launch>

@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  radiation-storage:
+    image: ros-noetic:radiation-storage  # Use a prebuilt image if available
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "6080:80"  # Maps port 6080 on host to port 80 in container
+    security_opt:
+      - seccomp=unconfined  # Disables seccomp for compatibility
+    shm_size: 512m  # Shared memory size for better performance
+    volumes:
+      - ./catkin_ws:/home/ubuntu/catkin_ws # Maps local folder to container
+      - ./java_rosbridge:/home/ubuntu/java_rosbridge # Maps local folder to container
+      - ./mcapl:/home/ubuntu/mcapl # Maps local folder to container
+      - /etc/localtime:/etc/localtime:ro  # Synchronize time with host
+      - /etc/timezone:/etc/timezone:ro    # Ensure correct timezone
+    environment:
+      - TZ=${TZ}  # Use the host's timezone
+    stdin_open: true  # Keeps stdin open for interactive processes
+    tty: true  # Enables a pseudo-TTY

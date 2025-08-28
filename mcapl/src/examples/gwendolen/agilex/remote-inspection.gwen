@@ -1,0 +1,13 @@
+GWENDOLEN
+:name: agilex_agent
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+:Plans:
++too_close: {True} <-
+    print("WARNING TOO CLOSE"),
+    stop_moving,
+    +stopped;
+
