@@ -131,12 +131,12 @@ and you will see the robot visiting three inspection point in the map (note that
 ## **MCAPL Setup in IntelliJ**  
 
 ### **1. Open IntelliJ**
-Open a new terminal and locate the MCAPL folder and then run IntelliJ :  
+Open a new terminal, navigate to the MCAPL folder, and launch IntelliJ:  
 ```sh
 cd MCAPL/
 intellij .
 ```
-At this point you'll se the **MCAPL** project in intellij interface.
+At this point, the MCAPL project should open in the IntelliJ interface.
 
 ### **2. Build the Project**
 - Use the **Ant** plugin to build the project (click the **Ant symbol** in the top-right corner of IntelliJ).  
@@ -155,6 +155,11 @@ At this point you'll se the **MCAPL** project in intellij interface.
 
 ![IntelliJ](Intellij.png)
 
+At this point, you will see the message in the IntelliJ terminal: *“Environment started, connection with ROS established”*
+
+This means that the Gwendolen agent is successfully connected to the ROS framework. Please ensure that both **gazebo_nuclear_inspection** and **open_rslidar** are running.
+
+After that, you can test the simulation again by running **simple_navigation_goals**. While the robot is approaching a wall, you will see a message indicating that the agent is commanding the robot to stop.
 
 ---
 
