@@ -22,6 +22,9 @@ cd Safe-ROS
 ```
 
 ### **2. Build and start the Containers with Docker Compose**  
+> ⚠️ **Note for Linux users:** If Docker requires `sudo` on your system, run commands like `sudo docker compose build` instead of `docker compose build`.
+
+
 ### Running the Containers
 Instead of manually building and running the container, use `docker-compose` to handle everything:
 

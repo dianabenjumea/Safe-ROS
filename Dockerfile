@@ -4,6 +4,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install essential tools in one step and clean up to save space
 RUN apt update && apt install -y \
+    build-essential \
+    libc6-dev \
+    python3-dev \
     openjdk-17-jdk \
     openjdk-11-jdk \
     lsb-release \
