@@ -10,28 +10,7 @@
  -->
 <launch>
 
-	<!--  ****** Maps *****  -->
-	<node name="map_server" pkg="map_server" type="map_server" args="$(find scout_gazebo_sim)/maps/reactor_room_map.yaml" output="screen">
-		<param name="frame_id" value="map"/>
-		</node>
-
-	<!--- Run AMCL -->
-	<include file="$(find scout_gazebo_sim)/launch/amcl.launch">
-		<arg name="use_map_topic" value="true" />
-		<arg name="scan_topic"    value="scan" />
-	</include>	
-
-<!---
-  <node pkg="amcl" type="amcl" name="amcl" output="screen">
-		<rosparam file="$(find scout_description)/param/amcl_params.yaml" command="load" />
-      		<param name="initial_pose_x"            value="0"/>
-      		<param name="initial_pose_y"            value="0"/>
-		<param name="initial_pose_a"            value="0"/>
-	</node>-->
-
-
-	<!--  ************** Navigation ***************  -->
-
+        <!--  ************** Navigation ***************  -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find scout_description)/param/4wd/costmap_common_params.yaml" command="load" ns="global_costmap" />
 
@@ -46,37 +25,27 @@
     <rosparam file="$(find scout_description)/param/4wd/move_base_params.yaml" command="load" />
   </node>
 
-	<!--  **************** Visualisation ****************  -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find scout_gazebo_sim)/rviz/navigation.rviz" />  
 
+	<!--  ****** Maps *****  -->
+ <node name="map_server" pkg="map_server" type="map_server" args="$(find scout_description)/maps/SimonsCoolMap.yaml" output="screen">
+     <!--  <node name="map_server" pkg="map_server" type="map_server" args="/home/nvidia/map/2.yaml" output="screen">-->
+      <param name="frame_id" value="map"/>
+	</node>
 
+	<node pkg="amcl" type="amcl" name="amcl" output="screen">
+		<rosparam file="$(find scout_description)/param/amcl_params.yaml" command="load" />
+      		<param name="initial_pose_x"            value="0"/>
+      		<param name="initial_pose_y"            value="0"/>
+		<param name="initial_pose_a"            value="0"/>
+	</node>
+
+  <!--  **************** Visualisation ****************  -->
+  <node name="car_rviz" pkg="rviz" type="rviz" args="-d $(find scout_description)/rviz/rviz_navigation.rviz">
+  </node>
+  <include file="$(find scout_bringup)/launch/scout_velocity_smoother.launch"/>
+  <include file="$(find scout_base)/launch/scout_mini_base.launch">
+      <arg name="port_name" default="can0" />
+      <arg name="simulated_robot" default="false" />
+  </include>
 
 </launch>
-
-
-
-
-
-<!--</launch>
-
-	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-
-
-    <rosparam file="$(find scout_gazebo_sim)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find scout_gazebo_sim)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
-
-    <rosparam file="$(find scout_control)/params/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find scout_gazebo_sim)/params/global_costmap_params.yaml" command="load" />
-
-    <rosparam file="$(find scout_control)/params/teb_local_planner_params.yaml" command="load" />
-    <rosparam file="$(find scout_description)/param/4wd/move_base_params.yaml" command="load" />
-
-	<param name="base_global_planner" value="global_planner/GlobalPlanner" />
-		<param name="planner_frequency" value="1.0" />
-		<param name="planner_patience" value="5.0" />
-		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
-		<param name="controller_frequency" value="5.0" />
-		<param name="controller_patience" value="15.0" />
-        <param name="clearing_rotation_allowed" value="false" />  
-
-  </node> -->

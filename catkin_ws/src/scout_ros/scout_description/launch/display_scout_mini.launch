@@ -4,8 +4,9 @@
   <arg
     name="gui"
     default="False" />
-  <param name="robot_description" 
-    command="$(find xacro)/xacro --inorder '$(find scout_description)/urdf/my_scout_mini_V2.xacro' " />
+  <param
+    name="robot_description"
+    textfile="$(find scout_description)/urdf/scout_mini.urdf" />
   <param
     name="use_gui"
     value="$(arg gui)" />
@@ -18,6 +19,3 @@
     pkg="robot_state_publisher"
     type="robot_state_publisher" />
 </launch>
-
-
-
