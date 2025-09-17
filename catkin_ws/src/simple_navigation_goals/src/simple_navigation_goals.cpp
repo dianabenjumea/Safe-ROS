@@ -17,7 +17,7 @@ int main(int argc, char** argv){
     // Define multiple inspection points
     std::vector<std::pair<double, double>> inspection_points = {
         {0.0, 0.0},
-	//{-0.96, 1.13},
+	{-0.96, 1.13},
 	{2.30, -1.11},
 	{2.61, 2.42}
     };

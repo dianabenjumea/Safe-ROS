@@ -90,8 +90,9 @@
 
     <rosparam file="$(find scout_description)/param/4wd/base_local_planner_params.yaml" command="load" />
 
-    <rosparam file="$(find scout_description)/param/4wd/move_base_params.yaml" command="load" />	
+    <rosparam file="$(find scout_description)/param/4wd/move_base_params.yaml" command="load" />
 
+    <remap from="/cmd_vel" to="/cmd_vel_filtered" />    
   </node>
 
 
@@ -113,15 +114,16 @@
   <node name="cmd_vel_interceptor_node" pkg="cmd_vel_interceptor"
       type="cmd_vel_interceptor_node.py" output="screen"/>
 
+  <!-- Gwendolen Control Node -->
+  <node name="gwendolen_control_node" pkg="cmd_vel_interceptor"
+        type="gwendolen_control_node.py" output="screen"/>
+
   <!--  **************** Visualisation ****************  -->
 <node name="car_rviz" pkg="rviz" type="rviz" args="-d $(find scout_bringup)/launch/lab_inspection.rviz">
   </node>
-  <include file="$(find scout_bringup)/launch/scout_velocity_smoother.launch"/> -->
-  <include file="$(find scout_base)/launch/scout_mini_base.launch">
+  <include file="$(find scout_bringup)/launch/scout_velocity_smoother.launch"/>  <include file="$(find scout_base)/launch/scout_mini_base.launch">
       <arg name="port_name" default="can0" />
       <arg name="simulated_robot" default="false" />
-      <!-- Remap cmd_vel to the final smoothed topic -->
-      <remap from="/cmd_vel" to="/cmd_vel_smoothed"/>
   </include>
 
 </launch>

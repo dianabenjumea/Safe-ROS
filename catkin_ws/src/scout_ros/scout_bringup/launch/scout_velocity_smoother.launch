@@ -2,12 +2,12 @@
     <arg name="node_name"             value="velocity_smoother"/>
     <arg name="nodelet_manager_name"  value="nodelet_manager"/>
     <arg name="config_file"           value="$(find scout_description)/param/velocity_smoother.yaml"/>
-    <arg name="raw_cmd_vel_topic"     value="cmd_vel"/>
-    <arg name="smooth_cmd_vel_topic"  value="smoother_cmd_vel"/>
-    <arg name="robot_cmd_vel_topic"   value="smoother_cmd_vel"/>
-    <arg name="odom_topic"            value="odom"/> 
-  <node pkg="nodelet" type="nodelet" name="$(arg nodelet_manager_name)" args="manager"/> 
-  <include file="$(find yocs_velocity_smoother)/launch/velocity_smoother.launch">
+    <arg name="raw_cmd_vel_topic"     value="cmd_vel_filtered"/>  <!-- from interceptor -->
+    <arg name="smooth_cmd_vel_topic"  value="smoother_cmd_vel"/>  <!-- output -->
+    <arg name="robot_cmd_vel_topic"   value="smoother_cmd_vel"/>  <!-- what robot listens to -->
+    <arg name="odom_topic"            value="odom"/>
+
+    <include file="$(find yocs_velocity_smoother)/launch/velocity_smoother.launch">
         <arg name="node_name"             value="$(arg node_name)"/>
         <arg name="nodelet_manager_name"  value="$(arg nodelet_manager_name)"/>
         <arg name="config_file"           value="$(arg config_file)"/>
@@ -15,6 +15,6 @@
         <arg name="smooth_cmd_vel_topic"  value="$(arg smooth_cmd_vel_topic)"/>
         <arg name="robot_cmd_vel_topic"   value="$(arg robot_cmd_vel_topic)"/>
         <arg name="odom_topic"            value="$(arg odom_topic)"/>
-  </include>
-
+    </include>
 </launch>
+

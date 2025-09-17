@@ -83,15 +83,10 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 * (non-Javadoc)
 	 * @see ajpf.MCAPLScheduler#getActiveJobberNames()
 	 */
-	public List<String> getActiveJobberNames() throws IndexOutOfBoundsException {
+	public List<String> getActiveJobberNames() {
 		List<String> ags = new VerifyList<String>();
 		for (int i = 0; i < activeAgents.size(); i++) {
-			try {
-				ags.add(activeAgents.get(i));
-			} catch (ArrayIndexOutOfBoundsException e) {
-				System.err.println(activeAgents.size());
-				throw e;
-			}
+			ags.add(activeAgents.get(i));
 		}
 		return ags;
 	}

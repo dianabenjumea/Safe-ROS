@@ -19,7 +19,7 @@ public class RosEnv extends DefaultEnvironment {
 	private static final String MESSAGE_TYPE = "sensor_msgs/LaserScan";
 	private static final String CONTROL_TOPIC = "/gwendolen_control";
 	private static final String CONTROL_TYPE = "std_msgs/Bool";
-	private static final double SAFE_DISTANCE_THRESHOLD = 0.9;
+	private static final double SAFE_DISTANCE_THRESHOLD = 0.5;
 
 	private final RosBridge bridge;
 	//private double lastLaserReading = Double.MAX_VALUE;
@@ -64,6 +64,7 @@ public class RosEnv extends DefaultEnvironment {
 			}
 		}
 		return minValue;
+
 	}
 
 
