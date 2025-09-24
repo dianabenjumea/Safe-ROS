@@ -105,10 +105,10 @@
   <node name="cmd_vel_interceptor_node" pkg="cmd_vel_interceptor"
       type="cmd_vel_interceptor_node.py" output="screen"/>
 
-  <!-- Gwendolen Control Node -->
+  <!-- Gwendolen Control Node 
   <node name="gwendolen_control_node" pkg="cmd_vel_interceptor"
         type="gwendolen_control_node.py" output="screen"/>
-
+-->
 
   <!--  **************** Visualisation ****************  -->
   <node name="rviz" pkg="rviz" type="rviz"  args="-d $(find scout_gazebo_sim)/rviz/nuclear_inspection.rviz"/>

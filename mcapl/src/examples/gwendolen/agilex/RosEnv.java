@@ -73,13 +73,35 @@ public class RosEnv extends DefaultEnvironment {
 		if ("stop_moving".equals(act.getFunctor())) {
 			publishStopSignal();
 			System.out.println("Sending the message to stop moving");
-		}
+		} else if ("return_to_start".equals(act.getFunctor())) {
+			// Release stop
+			Publisher control = new Publisher(CONTROL_TOPIC, CONTROL_TYPE, bridge);
+			control.publish(new PrimitiveMsg<>(false));
+				sendNavigationGoal(0.0, 0.0, 0.0);  // go back to start pose
+				System.out.println("Sending navigation goal: return to start");
+			}
 		return new Unifier();
 	}
 
 	private void publishStopSignal() {
 		Publisher control = new Publisher(CONTROL_TOPIC, CONTROL_TYPE, bridge);
 		control.publish(new PrimitiveMsg<>(true));
+	}
+
+	private void sendNavigationGoal(double x, double y, double theta) {
+    Publisher goalPub = new Publisher("/move_base_simple/goal",
+                                      "geometry_msgs/PoseStamped", bridge);
+
+    String goalJson = String.format(
+        "{ \"header\": {\"frame_id\": \"map\"}, " +
+        "  \"pose\": { " +
+        "    \"position\": {\"x\": %f, \"y\": %f, \"z\": 0.0}, " +
+        "    \"orientation\": {\"z\": 0.0, \"w\": 1.0} " +
+        "  }}",
+        x, y
+    );
+
+    goalPub.publish(goalJson);
 	}
 
 	@Override
