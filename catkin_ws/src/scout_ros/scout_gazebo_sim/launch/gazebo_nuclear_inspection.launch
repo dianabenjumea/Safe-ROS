@@ -95,24 +95,30 @@
     <param name="initial_pose_a" value="0.0"/>
   </node>
 
-  <!--  ************** Navigation ***************  -->
-  <include file="$(find scout_gazebo_sim)/launch/move_base.launch">
-  <remap from="/cmd_vel" to="/cmd_vel_filtered" />
-  </include>
+  <!--  ************** Normal Navigation ***************  -->
+  <group>
+    <remap from="/cmd_vel" to="/nav/cmd_vel"/>
+    <include file="$(find scout_gazebo_sim)/launch/move_base.launch"/>
+  </group>
+
+  <group ns="agent">
+    <remap from="/cmd_vel" to="/agent/cmd_vel"/>
+    <include file="$(find scout_gazebo_sim)/launch/move_base.launch"/>
+  </group>
+
+  <!-- ******************** CMD_VEL MUX ******************** -->
+  <!-- Multiplexer to choose between normal or agent move_base -->
+  <node pkg="topic_tools" type="mux" name="cmd_vel_mux" args="/cmd_vel /nav/cmd_vel /agent/cmd_vel"/>
+
 
   <!-- ******************** CMD_VEL FILTERING ******************** -->
   <!-- Interceptor Node -->
   <node name="cmd_vel_interceptor_node" pkg="cmd_vel_interceptor"
       type="cmd_vel_interceptor_node.py" output="screen"/>
 
-  <!-- Gwendolen Control Node 
-  <node name="gwendolen_control_node" pkg="cmd_vel_interceptor"
-        type="gwendolen_control_node.py" output="screen"/>
--->
 
   <!--  **************** Visualisation ****************  -->
   <node name="rviz" pkg="rviz" type="rviz"  args="-d $(find scout_gazebo_sim)/rviz/nuclear_inspection.rviz"/>
-
 
 
 
