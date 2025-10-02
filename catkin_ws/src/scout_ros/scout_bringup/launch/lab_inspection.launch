@@ -78,7 +78,7 @@
 <!-- end of rosbridge setup -->
 
 
-        <!--  ************** Navigation ***************  -->
+        <!--  ************** Navigation *************** 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find scout_description)/param/4wd/costmap_common_params.yaml" command="load" ns="global_costmap" />
 
@@ -93,7 +93,12 @@
     <rosparam file="$(find scout_description)/param/4wd/move_base_params.yaml" command="load" />	
 
   </node>
+-->
 
+<!--  ************** Navigation ***************  -->
+  <include file="$(find scout_gazebo_sim)/launch/move_base.launch">
+  <remap from="/cmd_vel" to="/cmd_vel_filtered" />
+  </include>
 
 	<!--  ****** Maps *****  -->
  <node name="map_server" pkg="map_server" type="map_server" args="$(find scout_description)/maps/labMap.yaml" output="screen">
@@ -116,12 +121,10 @@
   <!--  **************** Visualisation ****************  -->
 <node name="car_rviz" pkg="rviz" type="rviz" args="-d $(find scout_bringup)/launch/lab_inspection.rviz">
   </node>
-  <include file="$(find scout_bringup)/launch/scout_velocity_smoother.launch"/> -->
+<!--  <include file="$(find scout_bringup)/launch/scout_velocity_smoother.launch"/> -->
   <include file="$(find scout_base)/launch/scout_mini_base.launch">
       <arg name="port_name" default="can0" />
       <arg name="simulated_robot" default="false" />
-      <!-- Remap cmd_vel to the final smoothed topic -->
-      <remap from="/cmd_vel" to="/cmd_vel_smoothed"/>
   </include>
 
 </launch>

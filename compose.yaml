@@ -1,23 +1,49 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  radiation-storage:
-    image: ros-noetic:radiation-storage  # Use a prebuilt image if available
+  app-macos:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.macos  # Mac-specific Dockerfile
     ports:
-      - "6080:80"  # Maps port 6080 on host to port 80 in container
+      - "6080:80"
     security_opt:
-      - seccomp=unconfined  # Disables seccomp for compatibility
-    shm_size: 512m  # Shared memory size for better performance
+      - seccomp=unconfined
+    shm_size: 512m
     volumes:
-      - ./catkin_ws:/home/ubuntu/catkin_ws # Maps local folder to container
-      - ./java_rosbridge:/home/ubuntu/java_rosbridge # Maps local folder to container
-      - ./mcapl:/home/ubuntu/mcapl # Maps local folder to container
-      - /etc/localtime:/etc/localtime:ro  # Synchronize time with host
-      - /etc/timezone:/etc/timezone:ro    # Ensure correct timezone
+      - ./catkin_ws:/home/ubuntu/catkin_ws
+      - ./java_rosbridge:/home/ubuntu/java_rosbridge
+      - ./mcapl:/home/ubuntu/mcapl
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     environment:
-      - TZ=${TZ}  # Use the host's timezone
-    stdin_open: true  # Keeps stdin open for interactive processes
-    tty: true  # Enables a pseudo-TTY
+      - TZ=${TZ}
+    stdin_open: true
+    tty: true
+
+  app-jetson:
+    build:
+      context: .
+      dockerfile: Dockerfile.jetson  # Jetson-specific Dockerfile
+    runtime: nvidia  # Enables GPU access
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    ports:
+      - "6080:80"
+    security_opt:
+      - seccomp=unconfined
+    shm_size: 512m
+    volumes:
+      - ./catkin_ws:/home/ubuntu/catkin_ws
+      - ./java_rosbridge:/home/ubuntu/java_rosbridge
+      - ./mcapl:/home/ubuntu/mcapl
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    environment:
+      - TZ=${TZ}
+    stdin_open: true
+    tty: true
+

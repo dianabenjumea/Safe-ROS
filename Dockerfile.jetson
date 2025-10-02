@@ -1,0 +1,87 @@
+# Use NVIDIA L4T Ubuntu 20.04 base (Jetson-optimized)
+FROM nvcr.io/nvidia/l4t-base:r35.2.1
+
+# Set noninteractive frontend for apt
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Add ROS Noetic repository for ARM64
+RUN apt-get update && apt-get install -y curl gnupg lsb-release \
+    && sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
+    && curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add - \
+    && apt-get update
+
+# Update and install essentials in one layer
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libc6-dev \
+    python3-dev \
+    wget \
+    unzip \
+    git \
+    curl \
+    gnupg \
+    lsb-release \
+    sudo \
+    openjdk-11-jdk \
+    openjdk-17-jdk \
+    ant \
+    ros-noetic-rosbridge-server \
+    ros-noetic-navigation \
+    ros-noetic-jackal-* \
+    ros-noetic-teleop-twist-keyboard \
+    ros-noetic-pcl-ros \
+    ros-noetic-velodyne \
+    ros-noetic-velocity-controllers \
+    ros-noetic-teb-local-planner \
+    ros-noetic-pointcloud-to-laserscan \
+    ros-noetic-gazebo-ros-pkgs \
+    ros-noetic-velodyne-gazebo-plugins \
+    ros-noetic-joint-state-publisher-gui \
+    ros-noetic-ros-controllers \
+    ros-noetic-openslam-gmapping \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install Apache Maven
+RUN wget -qO- https://dlcdn.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.tar.gz | tar xz -C /opt/ \
+    && ln -s /opt/apache-maven-3.9.11 /opt/maven
+ENV M2_HOME=/opt/maven
+ENV PATH=$M2_HOME/bin:$PATH
+
+# Create ubuntu user
+RUN id ubuntu || (useradd -m -s /bin/bash ubuntu && echo "ubuntu:ubuntu" | chpasswd && adduser ubuntu sudo)
+
+# Set up Desktop directory
+RUN mkdir -p /home/ubuntu/Desktop && chown -R ubuntu:ubuntu /home/ubuntu
+
+# Set locale for Java tools
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
+
+# Switch to ubuntu user
+USER ubuntu
+WORKDIR /home/ubuntu
+
+# Install Gazebo (ROS packages already installed above, but ensure Jetson-compatible version)
+USER root
+RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" > /etc/apt/sources.list.d/gazebo-stable.list' \
+    && curl -sSL https://packages.osrfoundation.org/gazebo.key | apt-key add - \
+    && apt-get update && apt-get install -y --no-install-recommends ros-noetic-gazebo-ros \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install IntelliJ IDEA (Community Edition)
+WORKDIR /tmp
+RUN wget -q https://download.jetbrains.com/idea/ideaIC-2024.3.3-aarch64.tar.gz \
+    && tar -xzf ideaIC-*.tar.gz -C /opt \
+    && ln -s /opt/idea-IC-*/bin/idea.sh /usr/local/bin/intellij \
+    && rm -rf /tmp/ideaIC-*.tar.gz
+
+# MCAPL setup
+RUN mkdir -p /home/ubuntu/.jpf && echo "mcapl = /home/ubuntu/mcapl" > /home/ubuntu/.jpf/site.properties
+ENV AJPF_HOME=/home/ubuntu/mcapl
+ENV CLASSPATH=/home/ubuntu/mcapl/bin
+
+# Copy entrypoint
+COPY ./entrypoint.sh /
+ENTRYPOINT ["/bin/bash", "-c", "/entrypoint.sh"]
