@@ -1143,56 +1143,30 @@ _run_tests_scout_description_roslaunch-check_launch/fast:
 .PHONY : _run_tests_scout_description_roslaunch-check_launch/fast
 
 #=============================================================================
-# Target rules for targets named scout_messenger
+# Target rules for targets named move_base_msgs_generate_messages_py
 
 # Build rule for target.
-scout_messenger: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 scout_messenger
-.PHONY : scout_messenger
+move_base_msgs_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 move_base_msgs_generate_messages_py
+.PHONY : move_base_msgs_generate_messages_py
 
 # fast build rule for target.
-scout_messenger/fast:
-	$(MAKE) -f scout_ros/scout_base/CMakeFiles/scout_messenger.dir/build.make scout_ros/scout_base/CMakeFiles/scout_messenger.dir/build
-.PHONY : scout_messenger/fast
+move_base_msgs_generate_messages_py/fast:
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/move_base_msgs_generate_messages_py.dir/build.make gwendolen_move_base/CMakeFiles/move_base_msgs_generate_messages_py.dir/build
+.PHONY : move_base_msgs_generate_messages_py/fast
 
 #=============================================================================
-# Target rules for targets named scout_base_node
+# Target rules for targets named actionlib_generate_messages_cpp
 
 # Build rule for target.
-scout_base_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 scout_base_node
-.PHONY : scout_base_node
+actionlib_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_cpp
+.PHONY : actionlib_generate_messages_cpp
 
 # fast build rule for target.
-scout_base_node/fast:
-	$(MAKE) -f scout_ros/scout_base/CMakeFiles/scout_base_node.dir/build.make scout_ros/scout_base/CMakeFiles/scout_base_node.dir/build
-.PHONY : scout_base_node/fast
-
-#=============================================================================
-# Target rules for targets named actionlib_generate_messages_py
-
-# Build rule for target.
-actionlib_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_py
-.PHONY : actionlib_generate_messages_py
-
-# fast build rule for target.
-actionlib_generate_messages_py/fast:
-	$(MAKE) -f scout_ros/scout_base/CMakeFiles/actionlib_generate_messages_py.dir/build.make scout_ros/scout_base/CMakeFiles/actionlib_generate_messages_py.dir/build
-.PHONY : actionlib_generate_messages_py/fast
-
-#=============================================================================
-# Target rules for targets named actionlib_generate_messages_nodejs
-
-# Build rule for target.
-actionlib_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_nodejs
-.PHONY : actionlib_generate_messages_nodejs
-
-# fast build rule for target.
-actionlib_generate_messages_nodejs/fast:
-	$(MAKE) -f scout_ros/scout_base/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make scout_ros/scout_base/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
-.PHONY : actionlib_generate_messages_nodejs/fast
+actionlib_generate_messages_cpp/fast:
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/actionlib_generate_messages_cpp.dir/build.make gwendolen_move_base/CMakeFiles/actionlib_generate_messages_cpp.dir/build
+.PHONY : actionlib_generate_messages_cpp/fast
 
 #=============================================================================
 # Target rules for targets named actionlib_generate_messages_eus
@@ -1204,21 +1178,21 @@ actionlib_generate_messages_eus: cmake_check_build_system
 
 # fast build rule for target.
 actionlib_generate_messages_eus/fast:
-	$(MAKE) -f scout_ros/scout_base/CMakeFiles/actionlib_generate_messages_eus.dir/build.make scout_ros/scout_base/CMakeFiles/actionlib_generate_messages_eus.dir/build
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/actionlib_generate_messages_eus.dir/build.make gwendolen_move_base/CMakeFiles/actionlib_generate_messages_eus.dir/build
 .PHONY : actionlib_generate_messages_eus/fast
 
 #=============================================================================
-# Target rules for targets named actionlib_msgs_generate_messages_py
+# Target rules for targets named actionlib_generate_messages_lisp
 
 # Build rule for target.
-actionlib_msgs_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_msgs_generate_messages_py
-.PHONY : actionlib_msgs_generate_messages_py
+actionlib_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_lisp
+.PHONY : actionlib_generate_messages_lisp
 
 # fast build rule for target.
-actionlib_msgs_generate_messages_py/fast:
-	$(MAKE) -f scout_ros/scout_base/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build.make scout_ros/scout_base/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build
-.PHONY : actionlib_msgs_generate_messages_py/fast
+actionlib_generate_messages_lisp/fast:
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/actionlib_generate_messages_lisp.dir/build.make gwendolen_move_base/CMakeFiles/actionlib_generate_messages_lisp.dir/build
+.PHONY : actionlib_generate_messages_lisp/fast
 
 #=============================================================================
 # Target rules for targets named actionlib_msgs_generate_messages_nodejs
@@ -1230,8 +1204,138 @@ actionlib_msgs_generate_messages_nodejs: cmake_check_build_system
 
 # fast build rule for target.
 actionlib_msgs_generate_messages_nodejs/fast:
-	$(MAKE) -f scout_ros/scout_base/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build.make scout_ros/scout_base/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build.make gwendolen_move_base/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build
 .PHONY : actionlib_msgs_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named actionlib_msgs_generate_messages_py
+
+# Build rule for target.
+actionlib_msgs_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_msgs_generate_messages_py
+.PHONY : actionlib_msgs_generate_messages_py
+
+# fast build rule for target.
+actionlib_msgs_generate_messages_py/fast:
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build.make gwendolen_move_base/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build
+.PHONY : actionlib_msgs_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named actionlib_generate_messages_nodejs
+
+# Build rule for target.
+actionlib_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_nodejs
+.PHONY : actionlib_generate_messages_nodejs
+
+# fast build rule for target.
+actionlib_generate_messages_nodejs/fast:
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make gwendolen_move_base/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
+.PHONY : actionlib_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named move_base_msgs_generate_messages_eus
+
+# Build rule for target.
+move_base_msgs_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 move_base_msgs_generate_messages_eus
+.PHONY : move_base_msgs_generate_messages_eus
+
+# fast build rule for target.
+move_base_msgs_generate_messages_eus/fast:
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/move_base_msgs_generate_messages_eus.dir/build.make gwendolen_move_base/CMakeFiles/move_base_msgs_generate_messages_eus.dir/build
+.PHONY : move_base_msgs_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named move_base_msgs_generate_messages_nodejs
+
+# Build rule for target.
+move_base_msgs_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 move_base_msgs_generate_messages_nodejs
+.PHONY : move_base_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+move_base_msgs_generate_messages_nodejs/fast:
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/move_base_msgs_generate_messages_nodejs.dir/build.make gwendolen_move_base/CMakeFiles/move_base_msgs_generate_messages_nodejs.dir/build
+.PHONY : move_base_msgs_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named actionlib_generate_messages_py
+
+# Build rule for target.
+actionlib_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_py
+.PHONY : actionlib_generate_messages_py
+
+# fast build rule for target.
+actionlib_generate_messages_py/fast:
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/actionlib_generate_messages_py.dir/build.make gwendolen_move_base/CMakeFiles/actionlib_generate_messages_py.dir/build
+.PHONY : actionlib_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named actionlib_msgs_generate_messages_cpp
+
+# Build rule for target.
+actionlib_msgs_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_msgs_generate_messages_cpp
+.PHONY : actionlib_msgs_generate_messages_cpp
+
+# fast build rule for target.
+actionlib_msgs_generate_messages_cpp/fast:
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make gwendolen_move_base/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build
+.PHONY : actionlib_msgs_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named actionlib_msgs_generate_messages_eus
+
+# Build rule for target.
+actionlib_msgs_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_msgs_generate_messages_eus
+.PHONY : actionlib_msgs_generate_messages_eus
+
+# fast build rule for target.
+actionlib_msgs_generate_messages_eus/fast:
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/build.make gwendolen_move_base/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/build
+.PHONY : actionlib_msgs_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named move_base_msgs_generate_messages_lisp
+
+# Build rule for target.
+move_base_msgs_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 move_base_msgs_generate_messages_lisp
+.PHONY : move_base_msgs_generate_messages_lisp
+
+# fast build rule for target.
+move_base_msgs_generate_messages_lisp/fast:
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/move_base_msgs_generate_messages_lisp.dir/build.make gwendolen_move_base/CMakeFiles/move_base_msgs_generate_messages_lisp.dir/build
+.PHONY : move_base_msgs_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named actionlib_msgs_generate_messages_lisp
+
+# Build rule for target.
+actionlib_msgs_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_msgs_generate_messages_lisp
+.PHONY : actionlib_msgs_generate_messages_lisp
+
+# fast build rule for target.
+actionlib_msgs_generate_messages_lisp/fast:
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make gwendolen_move_base/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build
+.PHONY : actionlib_msgs_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named move_base_msgs_generate_messages_cpp
+
+# Build rule for target.
+move_base_msgs_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 move_base_msgs_generate_messages_cpp
+.PHONY : move_base_msgs_generate_messages_cpp
+
+# fast build rule for target.
+move_base_msgs_generate_messages_cpp/fast:
+	$(MAKE) -f gwendolen_move_base/CMakeFiles/move_base_msgs_generate_messages_cpp.dir/build.make gwendolen_move_base/CMakeFiles/move_base_msgs_generate_messages_cpp.dir/build
+.PHONY : move_base_msgs_generate_messages_cpp/fast
 
 #=============================================================================
 # Target rules for targets named sensor_msgs_generate_messages_cpp
@@ -1247,17 +1351,17 @@ sensor_msgs_generate_messages_cpp/fast:
 .PHONY : sensor_msgs_generate_messages_cpp/fast
 
 #=============================================================================
-# Target rules for targets named actionlib_generate_messages_lisp
+# Target rules for targets named scout_messenger
 
 # Build rule for target.
-actionlib_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_lisp
-.PHONY : actionlib_generate_messages_lisp
+scout_messenger: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 scout_messenger
+.PHONY : scout_messenger
 
 # fast build rule for target.
-actionlib_generate_messages_lisp/fast:
-	$(MAKE) -f scout_ros/scout_base/CMakeFiles/actionlib_generate_messages_lisp.dir/build.make scout_ros/scout_base/CMakeFiles/actionlib_generate_messages_lisp.dir/build
-.PHONY : actionlib_generate_messages_lisp/fast
+scout_messenger/fast:
+	$(MAKE) -f scout_ros/scout_base/CMakeFiles/scout_messenger.dir/build.make scout_ros/scout_base/CMakeFiles/scout_messenger.dir/build
+.PHONY : scout_messenger/fast
 
 #=============================================================================
 # Target rules for targets named sensor_msgs_generate_messages_eus
@@ -1325,17 +1429,17 @@ sensor_msgs_generate_messages_nodejs/fast:
 .PHONY : sensor_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
-# Target rules for targets named actionlib_generate_messages_cpp
+# Target rules for targets named scout_base_node
 
 # Build rule for target.
-actionlib_generate_messages_cpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_cpp
-.PHONY : actionlib_generate_messages_cpp
+scout_base_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 scout_base_node
+.PHONY : scout_base_node
 
 # fast build rule for target.
-actionlib_generate_messages_cpp/fast:
-	$(MAKE) -f scout_ros/scout_base/CMakeFiles/actionlib_generate_messages_cpp.dir/build.make scout_ros/scout_base/CMakeFiles/actionlib_generate_messages_cpp.dir/build
-.PHONY : actionlib_generate_messages_cpp/fast
+scout_base_node/fast:
+	$(MAKE) -f scout_ros/scout_base/CMakeFiles/scout_base_node.dir/build.make scout_ros/scout_base/CMakeFiles/scout_base_node.dir/build
+.PHONY : scout_base_node/fast
 
 #=============================================================================
 # Target rules for targets named tf2_msgs_generate_messages_eus
@@ -1364,19 +1468,6 @@ sensor_msgs_generate_messages_py/fast:
 .PHONY : sensor_msgs_generate_messages_py/fast
 
 #=============================================================================
-# Target rules for targets named actionlib_msgs_generate_messages_eus
-
-# Build rule for target.
-actionlib_msgs_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_msgs_generate_messages_eus
-.PHONY : actionlib_msgs_generate_messages_eus
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_eus/fast:
-	$(MAKE) -f scout_ros/scout_base/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/build.make scout_ros/scout_base/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/build
-.PHONY : actionlib_msgs_generate_messages_eus/fast
-
-#=============================================================================
 # Target rules for targets named tf2_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -1401,32 +1492,6 @@ tf2_msgs_generate_messages_nodejs: cmake_check_build_system
 tf2_msgs_generate_messages_nodejs/fast:
 	$(MAKE) -f scout_ros/scout_base/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build.make scout_ros/scout_base/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build
 .PHONY : tf2_msgs_generate_messages_nodejs/fast
-
-#=============================================================================
-# Target rules for targets named actionlib_msgs_generate_messages_lisp
-
-# Build rule for target.
-actionlib_msgs_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_msgs_generate_messages_lisp
-.PHONY : actionlib_msgs_generate_messages_lisp
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_lisp/fast:
-	$(MAKE) -f scout_ros/scout_base/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make scout_ros/scout_base/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build
-.PHONY : actionlib_msgs_generate_messages_lisp/fast
-
-#=============================================================================
-# Target rules for targets named actionlib_msgs_generate_messages_cpp
-
-# Build rule for target.
-actionlib_msgs_generate_messages_cpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_msgs_generate_messages_cpp
-.PHONY : actionlib_msgs_generate_messages_cpp
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_cpp/fast:
-	$(MAKE) -f scout_ros/scout_base/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make scout_ros/scout_base/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build
-.PHONY : actionlib_msgs_generate_messages_cpp/fast
 
 #=============================================================================
 # Target rules for targets named scout_gazebo
@@ -1557,71 +1622,6 @@ simple_navigation_goals: cmake_check_build_system
 simple_navigation_goals/fast:
 	$(MAKE) -f simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/build.make simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/build
 .PHONY : simple_navigation_goals/fast
-
-#=============================================================================
-# Target rules for targets named move_base_msgs_generate_messages_py
-
-# Build rule for target.
-move_base_msgs_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 move_base_msgs_generate_messages_py
-.PHONY : move_base_msgs_generate_messages_py
-
-# fast build rule for target.
-move_base_msgs_generate_messages_py/fast:
-	$(MAKE) -f simple_navigation_goals/CMakeFiles/move_base_msgs_generate_messages_py.dir/build.make simple_navigation_goals/CMakeFiles/move_base_msgs_generate_messages_py.dir/build
-.PHONY : move_base_msgs_generate_messages_py/fast
-
-#=============================================================================
-# Target rules for targets named move_base_msgs_generate_messages_nodejs
-
-# Build rule for target.
-move_base_msgs_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 move_base_msgs_generate_messages_nodejs
-.PHONY : move_base_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-move_base_msgs_generate_messages_nodejs/fast:
-	$(MAKE) -f simple_navigation_goals/CMakeFiles/move_base_msgs_generate_messages_nodejs.dir/build.make simple_navigation_goals/CMakeFiles/move_base_msgs_generate_messages_nodejs.dir/build
-.PHONY : move_base_msgs_generate_messages_nodejs/fast
-
-#=============================================================================
-# Target rules for targets named move_base_msgs_generate_messages_lisp
-
-# Build rule for target.
-move_base_msgs_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 move_base_msgs_generate_messages_lisp
-.PHONY : move_base_msgs_generate_messages_lisp
-
-# fast build rule for target.
-move_base_msgs_generate_messages_lisp/fast:
-	$(MAKE) -f simple_navigation_goals/CMakeFiles/move_base_msgs_generate_messages_lisp.dir/build.make simple_navigation_goals/CMakeFiles/move_base_msgs_generate_messages_lisp.dir/build
-.PHONY : move_base_msgs_generate_messages_lisp/fast
-
-#=============================================================================
-# Target rules for targets named move_base_msgs_generate_messages_eus
-
-# Build rule for target.
-move_base_msgs_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 move_base_msgs_generate_messages_eus
-.PHONY : move_base_msgs_generate_messages_eus
-
-# fast build rule for target.
-move_base_msgs_generate_messages_eus/fast:
-	$(MAKE) -f simple_navigation_goals/CMakeFiles/move_base_msgs_generate_messages_eus.dir/build.make simple_navigation_goals/CMakeFiles/move_base_msgs_generate_messages_eus.dir/build
-.PHONY : move_base_msgs_generate_messages_eus/fast
-
-#=============================================================================
-# Target rules for targets named move_base_msgs_generate_messages_cpp
-
-# Build rule for target.
-move_base_msgs_generate_messages_cpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 move_base_msgs_generate_messages_cpp
-.PHONY : move_base_msgs_generate_messages_cpp
-
-# fast build rule for target.
-move_base_msgs_generate_messages_cpp/fast:
-	$(MAKE) -f simple_navigation_goals/CMakeFiles/move_base_msgs_generate_messages_cpp.dir/build.make simple_navigation_goals/CMakeFiles/move_base_msgs_generate_messages_cpp.dir/build
-.PHONY : move_base_msgs_generate_messages_cpp/fast
 
 #=============================================================================
 # Target rules for targets named _run_tests_gmapping_rostest_test_basic_localization_laser_different_beamcount.test
@@ -2491,28 +2491,33 @@ help:
 	@echo "... run_tests_scout_description_roslaunch-check"
 	@echo "... _run_tests_scout_description_roslaunch-check"
 	@echo "... _run_tests_scout_description_roslaunch-check_launch"
-	@echo "... scout_messenger"
-	@echo "... scout_base_node"
-	@echo "... actionlib_generate_messages_py"
-	@echo "... actionlib_generate_messages_nodejs"
+	@echo "... move_base_msgs_generate_messages_py"
+	@echo "... actionlib_generate_messages_cpp"
 	@echo "... actionlib_generate_messages_eus"
-	@echo "... actionlib_msgs_generate_messages_py"
-	@echo "... actionlib_msgs_generate_messages_nodejs"
-	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... actionlib_generate_messages_lisp"
+	@echo "... actionlib_msgs_generate_messages_nodejs"
+	@echo "... actionlib_msgs_generate_messages_py"
+	@echo "... actionlib_generate_messages_nodejs"
+	@echo "... move_base_msgs_generate_messages_eus"
+	@echo "... move_base_msgs_generate_messages_nodejs"
+	@echo "... actionlib_generate_messages_py"
+	@echo "... actionlib_msgs_generate_messages_cpp"
+	@echo "... actionlib_msgs_generate_messages_eus"
+	@echo "... move_base_msgs_generate_messages_lisp"
+	@echo "... actionlib_msgs_generate_messages_lisp"
+	@echo "... move_base_msgs_generate_messages_cpp"
+	@echo "... sensor_msgs_generate_messages_cpp"
+	@echo "... scout_messenger"
 	@echo "... sensor_msgs_generate_messages_eus"
 	@echo "... tf2_msgs_generate_messages_cpp"
 	@echo "... tf2_msgs_generate_messages_py"
 	@echo "... sensor_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_nodejs"
-	@echo "... actionlib_generate_messages_cpp"
+	@echo "... scout_base_node"
 	@echo "... tf2_msgs_generate_messages_eus"
 	@echo "... sensor_msgs_generate_messages_py"
-	@echo "... actionlib_msgs_generate_messages_eus"
 	@echo "... tf2_msgs_generate_messages_lisp"
 	@echo "... tf2_msgs_generate_messages_nodejs"
-	@echo "... actionlib_msgs_generate_messages_lisp"
-	@echo "... actionlib_msgs_generate_messages_cpp"
 	@echo "... scout_gazebo"
 	@echo "... run_tests_scout_gazebo_sim"
 	@echo "... run_tests_scout_gazebo_sim_roslaunch-check"
@@ -2523,11 +2528,6 @@ help:
 	@echo "... _run_tests_scout_gazebo_sim_roslaunch-check_launch"
 	@echo "... run_tests_scout_gazebo_sim_roslaunch-check_launch"
 	@echo "... simple_navigation_goals"
-	@echo "... move_base_msgs_generate_messages_py"
-	@echo "... move_base_msgs_generate_messages_nodejs"
-	@echo "... move_base_msgs_generate_messages_lisp"
-	@echo "... move_base_msgs_generate_messages_eus"
-	@echo "... move_base_msgs_generate_messages_cpp"
 	@echo "... _run_tests_gmapping_rostest_test_basic_localization_laser_different_beamcount.test"
 	@echo "... run_tests_gmapping_rostest_test_basic_localization_laser_different_beamcount.test"
 	@echo "... run_tests_gmapping_rostest_test_basic_localization_upside_down.launch"

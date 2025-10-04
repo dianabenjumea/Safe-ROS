@@ -1,18 +1,25 @@
 GWENDOLEN
+
 :name: agilex_agent
 
 :Initial Beliefs:
+mode(normal)
 
 :Initial Goals:
 
 :Plans:
-+too_close: {True} <-
-    print("WARNING TOO CLOSE"),
+
++too_close : { B mode(normal) } <- 
+    print("Obstacle detected too close!"),
     stop_moving,
+    -mode(normal),
+    +mode(recovery),
     +stopped;
 
-
-+stopped: {True} <-
-    print("RETURNING TO START"),
-    return_to_start.
++stopped : { B mode(recovery) } <- 
+    print("Returning to start position"),
+    return_to_start,
+    -stopped,
+    -mode(recovery),
+    +mode(normal);
 

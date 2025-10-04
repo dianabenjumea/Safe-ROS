@@ -1,64 +1,80 @@
 #!/usr/bin/env python
 
 import rospy
-from geometry_msgs.msg import Twist
-from std_msgs.msg import Bool, String
-
+from geometry_msgs.msg import Twist, Vector3
+from std_msgs.msg import Bool
 
 class CmdVelInterceptor:
     def __init__(self):
         rospy.init_node('cmd_vel_interceptor_node', anonymous=True)
-        
-        # Internal state 
-        self.stop_requested = False # Stop signal
-        self.active_source = "nav"   # default source
-        self.latest_nav_cmd = Twist()
-        self.latest_agent_cmd = Twist()
 
-        # Subscribers 
-        rospy.Subscriber('/nav/cmd_vel', Twist, self.nav_cmd_callback)
+        # Internal state
+        self.stop_requested = False
+        self.agent_goal_active = False
+        self.latest_agent_cmd = None
+        self.latest_nav_cmd = None
+
+        # Subscribers
         rospy.Subscriber('/agent/cmd_vel', Twist, self.agent_cmd_callback)
+        rospy.Subscriber('/nav/cmd_vel', Twist, self.nav_cmd_callback)
         rospy.Subscriber('/gwendolen_control', Bool, self.stop_callback)
-        rospy.Subscriber('/cmd_vel_source', String, self.source_callback)
+        rospy.Subscriber('/gwendolen_goal', Vector3, self.agent_goal_callback)
 
-        # Publisher (remapped to /cmd_vel in your launch file)
+        # Publisher
         self.cmd_vel_pub = rospy.Publisher('/cmd_vel_filtered', Twist, queue_size=10)
-        
-        rospy.loginfo("cmd_vel_interceptor_node initialized and running...")
 
-        # Timer to publish periodically
-        rospy.Timer(rospy.Duration(0.1), self.publish_cmd)
+        # Timer to regularly publish cmd_vel
+        rospy.Timer(rospy.Duration(0.05), self.publish_cmd)  # 20 Hz
+        rospy.loginfo("cmd_vel_interceptor_node running...")
 
-    def stop_callback(self, msg):
+    # --- Callbacks ---
+    def stop_callback(self, msg: Bool):
         self.stop_requested = msg.data
-        rospy.loginfo(f"Safety stop signal received: {self.stop_requested}")
+        rospy.loginfo(f"Safety stop signal: {self.stop_requested}")
 
-    def source_callback(self, msg):
-        if msg.data in ["nav", "agent"]:
-            self.active_source = msg.data
-            rospy.loginfo(f"Switched active cmd_vel source to: {self.active_source}")
-        else:
-            rospy.logwarn(f"Ignoring unknown source selection: {msg.data}")
-
-    def nav_cmd_callback(self, msg):
-        self.latest_nav_cmd = msg
-
-    def agent_cmd_callback(self, msg):
+    def agent_cmd_callback(self, msg: Twist):
         self.latest_agent_cmd = msg
 
+    def nav_cmd_callback(self, msg: Twist):
+        self.latest_nav_cmd = msg
+
+    def agent_goal_callback(self, msg: Vector3):
+        self.agent_goal_active = True
+        self.latest_agent_cmd = None  # Reset previous cmd_vel
+        rospy.loginfo(f"Agent goal received → active (x={msg.x}, y={msg.y}, z={msg.z})")
+
+    # --- Main arbitration logic ---
     def publish_cmd(self, event):
+        twist_to_publish = None
+
         if self.stop_requested:
-            rospy.logwarn("Stop active - publishing zero velocity")
-            self.cmd_vel_pub.publish(Twist())
-        else:
-            if self.active_source == "agent":
-                self.cmd_vel_pub.publish(self.latest_agent_cmd)
+            # Stop is active
+            if self.agent_goal_active:
+                if self.latest_agent_cmd:
+                    twist_to_publish = self.latest_agent_cmd
+                    rospy.loginfo("STOP active + agent goal → forwarding agent cmd_vel")
+                else:
+                    twist_to_publish = None  # wait for agent/cmd_vel
+                    rospy.loginfo("STOP active + agent goal → waiting for agent cmd_vel")
             else:
-                self.cmd_vel_pub.publish(self.latest_nav_cmd)
+                twist_to_publish = Twist()  # zero cmd_vel if no goal
+                rospy.logwarn("STOP active + no agent goal → publishing zero")
+        else:
+            # Stop not active
+            if self.agent_goal_active and self.latest_agent_cmd:
+                twist_to_publish = self.latest_agent_cmd
+                rospy.loginfo("No stop + agent goal → forwarding agent cmd_vel")
+            elif not self.agent_goal_active and self.latest_nav_cmd:
+                twist_to_publish = self.latest_nav_cmd
+                rospy.loginfo("No stop + no agent goal → forwarding nav cmd_vel")
+
+        # Publish only if we have something to publish
+        if twist_to_publish is not None:
+            self.cmd_vel_pub.publish(twist_to_publish)
 
 if __name__ == '__main__':
     try:
-        node = CmdVelInterceptorMux()
+        CmdVelInterceptor()
         rospy.spin()
     except rospy.ROSInterruptException:
-        rospy.loginfo("cmd_vel_interceptor_mux shutting down.")
+        pass

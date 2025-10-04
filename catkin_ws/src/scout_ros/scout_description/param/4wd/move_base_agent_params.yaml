@@ -1,0 +1,30 @@
+# move_base_agent_params.yaml
+
+# Planners
+base_global_planner: "global_planner/NavfnROS"
+base_local_planner: "dwa_local_planner/TrajectoryPlannerROS"
+
+# Costmaps (will be loaded separately)
+# local_costmap and global_costmap loaded via their own YAML files
+
+# Controller / Planner behavior
+shutdown_costmaps: false
+
+controller_frequency: 10.0        # Hz
+controller_patience: 15.0         # seconds
+
+planner_frequency: 0.5             # Hz
+planner_patience: 5.0              # seconds
+
+oscillation_timeout: 10.0          # seconds
+oscillation_distance: 0.2          # meters
+
+conservative_reset_dist: 0.0       # meters
+
+# Cost settings
+cost_factor: 1.0
+neutral_cost: 55
+lethal_cost: 253
+
+# Recovery behaviors
+# Keep default or load separate recovery params if needed
