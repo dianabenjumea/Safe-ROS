@@ -97,25 +97,13 @@
 
   <!--  ************** Navigation ***************  -->
 
-  <!-- Normal navigation -->
-  <group>
-    <remap from="/cmd_vel" to="/nav/cmd_vel"/>
-    <include file="$(find scout_gazebo_sim)/launch/move_base.launch"/>
-  </group>
 
-  <!-- Agent move_base -->
-  <node pkg="move_base" type="move_base" name="move_base" ns="agent" output="screen">
-    <!-- Costmaps -->
-    <rosparam file="$(find scout_description)/param/4wd/costmap_common_params.yaml" command="load" ns="agent/global_costmap" />
-    <rosparam file="$(find scout_description)/param/4wd/costmap_common_params.yaml" command="load" ns="agent/local_costmap" />
-    <rosparam file="$(find scout_description)/param/4wd/local_costmap_params.yaml" command="load" ns="agent" />
-    <rosparam file="$(find scout_description)/param/4wd/global_costmap_params.yaml" command="load" ns="agent" />
-    <rosparam file="$(find scout_description)/param/4wd/base_local_planner_params.yaml" command="load" ns="agent" />
-    <rosparam file="$(find scout_description)/param/4wd/move_base_agent_params.yaml" command="load" ns="agent" />
-    <remap from="/cmd_vel" to="/agent/cmd_vel"/>
-  </node>
+  <include file="$(find scout_gazebo_sim)/launch/move_base.launch"/>
 
-  
+  <include file="$(find scout_gazebo_sim)/launch/agent_move_base.launch"/>
+
+
+    
   <!-- python gwendolen movebase scripts -->
   <node name="movebase_client_py" output="screen" pkg="gwendolen_move_base" type="gwendolen_move_base.py" />
 

@@ -13,6 +13,8 @@
 
     <rosparam file="$(find scout_description)/param/4wd/move_base_params.yaml" command="load" />
 
+    <remap from="/cmd_vel" to="/nav/cmd_vel"/>
+
 
   </node>
 

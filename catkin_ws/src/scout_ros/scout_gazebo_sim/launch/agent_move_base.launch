@@ -1,0 +1,16 @@
+<launch>
+  <node pkg="move_base" type="move_base" ns="agent" name="move_base" output="screen">
+
+  <!-- Load all parameters in the node namespace -->
+    <rosparam file="$(find scout_description)/param/4wd/move_base_agent_params.yaml" command="load" />
+    <rosparam file="$(find scout_description)/param/4wd/costmap_common_params.yaml" command="load" ns="agent/move_base/global_costmap" />
+    <rosparam file="$(find scout_description)/param/4wd/costmap_common_params.yaml" command="load" ns="agent/move_base/local_costmap" />
+    <rosparam file="$(find scout_description)/param/4wd/local_costmap_params.yaml" command="load" ns="agent/move_base" />
+    <rosparam file="$(find scout_description)/param/4wd/global_agent_costmap_params.yaml" command="load" ns="agent/move_base" />
+    <rosparam file="$(find scout_description)/param/4wd/base_local_planner_params.yaml" command="load" ns="agent/move_base" />
+
+    <remap from="/cmd_vel" to="/agent/cmd_vel"/>
+  </node>
+</launch>
+
+
