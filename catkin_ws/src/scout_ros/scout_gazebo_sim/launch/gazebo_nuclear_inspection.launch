@@ -104,14 +104,6 @@
   <include file="$(find scout_gazebo_sim)/launch/move_base.launch">
     <arg name="namespace" value="agent"/>
   </include>
-
-
-<!--
-  <include file="$(find scout_gazebo_sim)/launch/move_base.launch"/>
-
-  <include file="$(find scout_gazebo_sim)/launch/agent_move_base.launch"/>
--->
-
     
   <!-- python gwendolen movebase scripts -->
   <node name="movebase_client_py" output="screen" pkg="gwendolen_move_base" type="gwendolen_move_base.py" />
