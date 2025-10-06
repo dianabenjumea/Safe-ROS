@@ -7,7 +7,7 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 int main(int argc, char** argv){
     ros::init(argc, argv, "inspection_navigation");
     
-    MoveBaseClient ac("move_base", true);
+    MoveBaseClient ac("nav/move_base", true);
     
     // Wait for the action server to come up
     while(!ac.waitForServer(ros::Duration(5.0))){

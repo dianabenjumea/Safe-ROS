@@ -97,11 +97,20 @@
 
   <!--  ************** Navigation ***************  -->
 
+  <include file="$(find scout_gazebo_sim)/launch/move_base.launch">
+    <arg name="namespace" value="nav"/>
+  </include>
 
+  <include file="$(find scout_gazebo_sim)/launch/move_base.launch">
+    <arg name="namespace" value="agent"/>
+  </include>
+
+
+<!--
   <include file="$(find scout_gazebo_sim)/launch/move_base.launch"/>
 
   <include file="$(find scout_gazebo_sim)/launch/agent_move_base.launch"/>
-
+-->
 
     
   <!-- python gwendolen movebase scripts -->
