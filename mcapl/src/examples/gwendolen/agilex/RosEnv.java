@@ -2,6 +2,12 @@ package gwendolen.agilex;
 
 import ail.mas.DefaultEnvironment;
 import ail.syntax.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import ail.util.AILexception;
 import com.fasterxml.jackson.databind.JsonNode;
 import ros.Publisher;
 import ros.RosBridge;
@@ -9,6 +15,8 @@ import ros.RosListenDelegate;
 import ros.SubscriptionRequestMsg;
 import ros.msgs.std_msgs.PrimitiveMsg;
 import ros.msgs.geometry_msgs.Vector3;
+import ros.msgs.move_base_msgs.MoveBaseActionResult;
+import ros.tools.MessageUnpacker;
 
 /**
  * ROS Environment for agilex_agent
@@ -23,6 +31,9 @@ public class RosEnv extends DefaultEnvironment {
     private static final String CONTROL_TYPE = "std_msgs/Bool";
     private static final String GOAL_TOPIC = "/gwendolen_goal";   // Uses the Python bridge
     private static final String GOAL_TYPE = "geometry_msgs/Vector3";
+    private static final String GOAL_REACHED_TOPIC = "/goal_reached";
+    private static final String AGENT_GOAL_REACHED_TOPIC = "/agent_goal_reached";
+    private static final String GOAL_REACHED_TYPE = "geometry_msgs/Vector3";
     private static final double SAFE_DISTANCE_THRESHOLD = 0.9;
 
     private final RosBridge bridge;
@@ -30,12 +41,14 @@ public class RosEnv extends DefaultEnvironment {
     private final Publisher goalPublisher;
 
     private boolean currentlyTooClose = false;
+    boolean goingDoor = false;
+    int currentLoc = 0;
 
     public RosEnv() {
         super();
         bridge = new RosBridge();
         bridge.connect(ROS_URL, true);
-        System.out.println("✅ Environment started, connected to ROS at " + ROS_URL);
+        System.out.println("Environment started, connected to ROS at " + ROS_URL);
 
         // Publishers
         stopPublisher = new Publisher(CONTROL_TOPIC, CONTROL_TYPE, bridge);
@@ -51,7 +64,68 @@ public class RosEnv extends DefaultEnvironment {
                 }
             }
         );
+
+        // Subscribe to goal reached topic
+        bridge.subscribe(
+                SubscriptionRequestMsg.generate(GOAL_REACHED_TOPIC).setType(GOAL_REACHED_TYPE),
+                (data, rep) -> handleVisitedPoint(data)
+        );
+
+        // Subscribe to agent goal reached topic
+        bridge.subscribe(
+                SubscriptionRequestMsg.generate(AGENT_GOAL_REACHED_TOPIC).setType(GOAL_REACHED_TYPE),
+                (data, rep) -> handleVisitedPoint(data)
+        );
+
+  //      bridge.subscribe(SubscriptionRequestMsg.generate("agent/move_base/result")
+  //                      .setType("move_base_msgs/MoveBaseActionResult"),
+
+  //              new RosListenDelegate() {
+  //                  public void receive(JsonNode data, String stringRep) {
+  //                      MessageUnpacker<MoveBaseActionResult> unpacker = new MessageUnpacker<MoveBaseActionResult>(MoveBaseActionResult.class);
+  //                      MoveBaseActionResult msg = unpacker.unpackRosMessage(data);
+  //                      clearPercepts();
+
+//                        Literal movebase_result = new Literal("movebase_result");
+//                        movebase_result.addTerm(new NumberTermImpl(msg.header.seq));
+//                        movebase_result.addTerm(new NumberTermImpl(msg.status.status));
+//                        addPercept(movebase_result);
+//                        System.out.println("movebase_result: " + movebase_result);
+//                    }
+ //               }
+   //     );
+
     }
+
+    private void handleVisitedPoint(JsonNode data) {
+        boolean succeeded = false;
+        while (! succeeded) {
+            try {
+                JsonNode msg = data.get("msg");
+                double x = msg.get("x").asDouble();
+                double y = msg.get("y").asDouble();
+
+                // Create latest visited inspection point  predicate
+                Predicate oldSafeLit = new Predicate("safe_inspection_point");
+                oldSafeLit.addTerm(new VarTerm("X"));
+                oldSafeLit.addTerm(new VarTerm("Y"));
+                removeUnifiesPercept(oldSafeLit);
+                Predicate safeLit = new Predicate("safe_inspection_point");
+                safeLit.addTerm(new NumberTermImpl(x));
+                safeLit.addTerm(new NumberTermImpl(y));
+                addPercept(safeLit);
+
+                System.out.println("Safe Inspection Point: " + safeLit);
+                System.err.println(percepts);
+                succeeded = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("ROS concurrency error");
+            }
+        }
+    }
+
+
 
     /** Handle laser scan and create percepts */
     private void handleLaserScanData(JsonNode data) {
@@ -61,7 +135,6 @@ public class RosEnv extends DefaultEnvironment {
         boolean tooCloseNow = minRange < SAFE_DISTANCE_THRESHOLD;
 
         if (tooCloseNow && !currentlyTooClose) {
-            clearPercepts("too_close");
             addPercept(new Literal("too_close"));
             currentlyTooClose = true;
         } else if (!tooCloseNow && currentlyTooClose) {
@@ -83,26 +156,13 @@ public class RosEnv extends DefaultEnvironment {
         return minValue;
     }
 
-    /** Map agent actions to ROS commands */
-    @Override
-    public Unifier executeAction(String agName, Action act) {
-        switch (act.getFunctor()) {
-            case "stop_moving":
-                sendStopSignal(true);
-                System.out.println("🛑 Stop signal sent to /gwendolen_control.");
-                break;
-
-            case "return_to_start":
-                moveTo(0.0, 0.0, 0.0);
-                System.out.println("↩️ Return-to-start Vector3 goal sent to /gwendolen_goal.");
-                break;
-        }
-        return new Unifier();
-    }
-
     private void sendStopSignal(boolean stop) {
-        stopPublisher.publish(new PrimitiveMsg<>(stop));
+        // std_msgs/Bool is commonly represented as a Primitive bool in simple ros java wrappers
+        PrimitiveMsg<Boolean> msg = new PrimitiveMsg<>(stop);
+        stopPublisher.publish(msg);
+        System.out.println("Published stop signal: " + stop);
     }
+
 
     /**
      * Send a Vector3 goal to /gwendolen_goal
@@ -111,13 +171,38 @@ public class RosEnv extends DefaultEnvironment {
     public void moveTo(double x, double y, double z) {
         Vector3 goal = new Vector3(x, y, z);
         goalPublisher.publish(goal);
-        System.out.printf("📡 Published Vector3 goal: x=%.2f, y=%.2f, z=%.2f%n", x, y, z);
+        System.out.printf("Published Vector3 goal: x=%.2f, y=%.2f, z=%.2f%n", x, y, z);
     }
 
     @Override
+    public Unifier executeAction(String agName, Action act) {
+        String functor = act.getFunctor();
+        switch (functor) {
+            case "stop_moving":
+                sendStopSignal(true);
+                break;
+            case "moveTo":
+                printAction(act);
+                double x = ((NumberTerm) act.getTerm(0)).solve();
+                double y = ((NumberTerm) act.getTerm(1)).solve();
+                double z = ((NumberTerm) act.getTerm(2)).solve();
+                moveTo(x, y, z);
+                System.out.printf("moveTo -> (%.2f, %.2f, %.2f)\n", x, y, z);
+                break;
+        }
+
+        try {
+            super.executeAction(agName, act);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return new Unifier();
+    }
+
+
+    @Override
     public boolean done() {
-        return false;
+        return false; // keep environment alive
     }
 }
-
 

@@ -106,7 +106,7 @@
   </include>
     
   <!-- python gwendolen movebase scripts -->
-  <node name="movebase_client_py" output="screen" pkg="gwendolen_move_base" type="gwendolen_move_base.py" />
+  <node name="movebase_client" output="screen" pkg="gwendolen_move_base" type="gwendolen_move_base.py" />
 
   <!-- ******************** CMD_VEL FILTERING ******************** -->
   <!-- Interceptor Node -->

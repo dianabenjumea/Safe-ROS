@@ -1,1 +1,2 @@
-1a: [] (B(agilex_agent,stop_moving) -> <> B(agilex_agent,stopped))
+R1: [] (B(agilex_agent,stop_moving) -> <> B(agilex_agent,stopped))
+R2:
