@@ -106,16 +106,16 @@ public class RosEnv extends DefaultEnvironment {
                 double y = msg.get("y").asDouble();
 
                 // Create latest visited inspection point  predicate
-                Predicate oldSafeLit = new Predicate("safe_inspection_point");
+                Predicate oldSafeLit = new Predicate("at");
                 oldSafeLit.addTerm(new VarTerm("X"));
                 oldSafeLit.addTerm(new VarTerm("Y"));
                 removeUnifiesPercept(oldSafeLit);
-                Predicate safeLit = new Predicate("safe_inspection_point");
+                Predicate safeLit = new Predicate("at");
                 safeLit.addTerm(new NumberTermImpl(x));
                 safeLit.addTerm(new NumberTermImpl(y));
                 addPercept(safeLit);
 
-                System.out.println("Safe Inspection Point: " + safeLit);
+                System.out.println("Robot location: " + safeLit);
                 System.err.println(percepts);
                 succeeded = true;
             } catch (Exception e) {
@@ -135,10 +135,11 @@ public class RosEnv extends DefaultEnvironment {
         boolean tooCloseNow = minRange < SAFE_DISTANCE_THRESHOLD;
 
         if (tooCloseNow && !currentlyTooClose) {
+            clearPercepts();
             addPercept(new Literal("too_close"));
             currentlyTooClose = true;
         } else if (!tooCloseNow && currentlyTooClose) {
-            clearPercepts("too_close");
+            clearPercepts();
             currentlyTooClose = false;
         }
     }

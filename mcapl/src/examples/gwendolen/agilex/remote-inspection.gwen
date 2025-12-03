@@ -39,32 +39,32 @@ safe(0)
     moveTo(X,Y,Z);
 
 
-+safe_inspection_point(X, Y) : { B going(L1), B location_coordinate(L1, _, X, Y, _), B next_location(L1,L2), B mode(normal) } <-
-						-going(L1),
-						print("Movement to location "),
-						print(L1),
-    					print(" ended with success."),
-    					+safe(L1),
-						+going(L2);
++at(X, Y) : { B going(L1), B location_coordinate(L1, _, X, Y, _), B next_location(L1,L2), B mode(normal) } <-
+    -going(L1),
+    print("Movement to location "),
+    print(L1),
+    print(" ended with success."),
+    +safe(L1),
+    +going(L2);
 
-+safe_inspection_point(X, Y) : { B going(L1), B location_coordinate(L1, _, X, Y, Z), B next_location(L2,L1),
++at(X, Y) : { B going(L1), B location_coordinate(L1, _, X, Y, Z), B next_location(L2,L1),
 B mode(recovery), B safe(L2), B location_coordinate(L2, _, X1, Y1, Z1)} <-
-						-going(L1),
-						print("Movement to location "),
-						print(L1),
-    					print(" ended with success."),
-						+going(L2),
-						moveTo(X1, Y1, Z1) ;
+    -going(L1),
+    print("Movement to location "),
+    print(L1),
+    print(" ended with success."),
+    +going(L2),
+    moveTo(X1, Y1, Z1) ;
 
-+safe_inspection_point(X, Y) : { B going(L1), ~ B location_coordinate(L1, _, X, Y, _)} <-
-						-going(L1),
-						print("Warning did not reach "),
-						print(L1),
-    					stop_moving ;
++at(X, Y) : { B going(L1), ~ B location_coordinate(L1, _, X, Y, _)} <-
+    -going(L1),
+    print("Warning did not reach "),
+    print(L1),
+    stop_moving ;
 
-+safe_inspection_point(X, Y) : { True } <-
-						print("Warning: Safe inspection not handled"),
-    					stop_moving ;
++at(X, Y) : { True } <-
+    print("Warning: Inspection point not handled"),
+    stop_moving ;
 
 
 
