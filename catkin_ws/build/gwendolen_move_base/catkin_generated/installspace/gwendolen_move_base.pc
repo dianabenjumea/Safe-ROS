@@ -1,0 +1,8 @@
+prefix=/home/agilex/Safe-ROS/catkin_ws/install
+
+Name: gwendolen_move_base
+Description: Description of gwendolen_move_base
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

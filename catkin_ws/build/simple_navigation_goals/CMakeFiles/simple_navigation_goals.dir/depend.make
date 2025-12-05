@@ -26,6 +26,7 @@ simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/src/simple_naviga
 simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/src/simple_navigation_goals.cpp.o: /opt/ros/noetic/include/geometry_msgs/Pose.h
 simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/src/simple_navigation_goals.cpp.o: /opt/ros/noetic/include/geometry_msgs/PoseStamped.h
 simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/src/simple_navigation_goals.cpp.o: /opt/ros/noetic/include/geometry_msgs/Quaternion.h
+simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/src/simple_navigation_goals.cpp.o: /opt/ros/noetic/include/geometry_msgs/Vector3.h
 simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/src/simple_navigation_goals.cpp.o: /opt/ros/noetic/include/move_base_msgs/MoveBaseAction.h
 simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/src/simple_navigation_goals.cpp.o: /opt/ros/noetic/include/move_base_msgs/MoveBaseActionFeedback.h
 simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/src/simple_navigation_goals.cpp.o: /opt/ros/noetic/include/move_base_msgs/MoveBaseActionGoal.h

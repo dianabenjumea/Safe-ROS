@@ -1,0 +1,131 @@
+<?xml version="1"?>
+<!-- 
+  Simulate a carlike robot with the teb_local_planner in stage:
+  - stage
+  - map_server
+  - move_base
+  - static map
+  - amcl
+  - rviz view
+ -->
+<launch>
+  <!-- rosbridge setup -->
+  <arg name="port" default="9090" />
+  <arg name="address" default="" />
+  <arg name="ssl" default="false" />
+  <arg name="certfile" default=""/>
+  <arg name="keyfile" default="" />
+
+  <arg name="retry_startup_delay" default="5" />
+
+  <arg name="fragment_timeout" default="600" />
+  <arg name="delay_between_messages" default="0" />
+  <arg name="max_message_size" default="None" />
+  <arg name="unregister_timeout" default="10" />
+
+  <arg name="authenticate" default="false" />
+
+  <arg name="topics_glob" default="[*]" />
+  <arg name="services_glob" default="[*]" />
+  <arg name="params_glob" default="[*]" />
+  <arg name="bson_only_mode" default="false" />
+
+  <!-- Valid options for binary_encoder are "default", "b64" and "bson". -->
+  <arg unless="$(arg bson_only_mode)" name="binary_encoder" default="default"/>
+
+  <group if="$(arg ssl)">
+    <node name="rosbridge_websocket" pkg="rosbridge_server" type="rosbridge_websocket" output="screen">
+      <param name="certfile" value="$(arg certfile)" />
+      <param name="keyfile" value="$(arg keyfile)" />
+      <param name="authenticate" value="$(arg authenticate)" />
+      <param name="port" value="$(arg port)"/>
+      <param name="address" value="$(arg address)"/>
+      <param name="retry_startup_delay" value="$(arg retry_startup_delay)"/>
+      <param name="fragment_timeout" value="$(arg fragment_timeout)"/>
+      <param name="delay_between_messages" value="$(arg delay_between_messages)"/>
+      <param name="max_message_size" value="$(arg max_message_size)"/>
+      <param name="unregister_timeout" value="$(arg unregister_timeout)"/>
+
+      <param name="topics_glob" value="$(arg topics_glob)"/>
+      <param name="services_glob" value="$(arg services_glob)"/>
+      <param name="params_glob" value="$(arg params_glob)"/>
+    </node>
+  </group>
+  <group unless="$(arg ssl)">
+    <node name="rosbridge_websocket" pkg="rosbridge_server" type="rosbridge_websocket" output="screen">
+      <param name="authenticate" value="$(arg authenticate)" />
+      <param name="port" value="$(arg port)"/>
+      <param name="address" value="$(arg address)"/>
+      <param name="retry_startup_delay" value="$(arg retry_startup_delay)"/>
+      <param name="fragment_timeout" value="$(arg fragment_timeout)"/>
+      <param name="delay_between_messages" value="$(arg delay_between_messages)"/>
+      <param name="max_message_size" value="$(arg max_message_size)"/>
+      <param name="unregister_timeout" value="$(arg unregister_timeout)"/>
+
+      <param name="topics_glob" value="$(arg topics_glob)"/>
+      <param name="services_glob" value="$(arg services_glob)"/>
+      <param name="params_glob" value="$(arg params_glob)"/>
+
+      <param name="bson_only_mode" value="$(arg bson_only_mode)"/>
+    </node>
+  </group>
+
+  <node name="rosapi" pkg="rosapi" type="rosapi_node">
+    <param name="topics_glob" value="$(arg topics_glob)"/>
+    <param name="services_glob" value="$(arg services_glob)"/>
+    <param name="params_glob" value="$(arg params_glob)"/>
+  </node>
+<!-- end of rosbridge setup -->
+
+
+  ************** Navigation *************** 
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find scout_description)/param/4wd/costmap_common_params.yaml" command="load" ns="global_costmap" />
+
+    <rosparam file="$(find scout_description)/param/4wd/costmap_common_params.yaml" command="load" ns="local_costmap" />
+
+    <rosparam file="$(find scout_description)/param/4wd/local_costmap_params.yaml" command="load" />
+
+    <rosparam file="$(find scout_description)/param/4wd/global_costmap_params.yaml" command="load" />
+
+    <rosparam file="$(find scout_description)/param/4wd/base_local_planner_params.yaml" command="load" />
+
+    <rosparam file="$(find scout_description)/param/4wd/move_base_params.yaml" command="load" />	
+
+  </node>
+-->
+
+<!--  ************** Navigation ***************  -->
+  <include file="$(find scout_gazebo_sim)/launch/move_base.launch">
+  <remap from="/cmd_vel" to="/cmd_vel_filtered" />
+  </include>
+
+	<!--  ****** Maps *****  -->
+ <node name="map_server" pkg="map_server" type="map_server" args="$(find scout_description)/maps/labMap.yaml" output="screen">
+     <!--  <node name="map_server" pkg="map_server" type="map_server" args="/home/nvidia/map/2.yaml" output="screen">-->
+      <param name="frame_id" value="map"/>
+	</node>
+
+	<node pkg="amcl" type="amcl" name="amcl" output="screen">
+		<rosparam file="$(find scout_description)/param/amcl_params.yaml" command="load" />
+      		<param name="initial_pose_x"            value="0.0"/>
+      		<param name="initial_pose_y"            value="0.0"/>
+		<param name="initial_pose_a"            value="0.0"/>
+	</node>
+
+<!-- ******************** CMD_VEL FILTERING ******************** -->
+  <!-- Interceptor Node -->
+  <node name="cmd_vel_interceptor_node" pkg="cmd_vel_interceptor"
+      type="cmd_vel_interceptor_node.py" output="screen"/>
+
+  <!--  **************** Visualisation ****************  -->
+<node name="car_rviz" pkg="rviz" type="rviz" args="-d $(find scout_bringup)/launch/lab_inspection.rviz">
+  </node>
+<!--  <include file="$(find scout_bringup)/launch/scout_velocity_smoother.launch"/> -->
+  <include file="$(find scout_base)/launch/scout_mini_base.launch">
+      <arg name="port_name" default="can0" />
+      <arg name="simulated_robot" default="false" />
+  </include>
+
+</launch>
+

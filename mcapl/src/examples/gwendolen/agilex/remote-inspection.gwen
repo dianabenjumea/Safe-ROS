@@ -1,13 +1,72 @@
 GWENDOLEN
+
 :name: agilex_agent
 
 :Initial Beliefs:
+mode(normal)
+
+location_coordinate(0,door,0.0,0.0,0.0)
+location_coordinate(1,inspectionPoint1,-0.96,1.13,0.0)
+location_coordinate(2,inspectionPoint2,2.3,-1.11,0.0)
+location_coordinate(3,inspectionPoint3,2.25,2.4,0.0)
+
+next_location(0,1)
+next_location(1,2)
+next_location(2,3)
+
+
+
+going(1)
+safe(0)
+
+
+:Reasoning Rules:
+
+
 
 :Initial Goals:
 
+
 :Plans:
-+too_close: {True} <-
-    print("WARNING TOO CLOSE"),
++too_close : { B mode(normal), B going(WP) } <-
+    print("Too Close Received"),
     stop_moving,
-    +stopped;
+    -safe(WP),
+    -mode(normal),
+    +mode(recovery);
+
++mode(recovery) : { B going(L1), B next_location(L2, L1), B safe(L2), B location_coordinate(L2, _, X, Y, Z)} <-
+    -going(L1),
+    +going(L2),
+    moveTo(X,Y,Z);
+
+
++at(X, Y) : { B going(L1), B location_coordinate(L1, _, X, Y, _), B next_location(L1,L2), B mode(normal) } <-
+    -going(L1),
+    print("Movement to location "),
+    print(L1),
+    print(" ended with success."),
+    +safe(L1),
+    +going(L2);
+
++at(X, Y) : { B going(L1), B location_coordinate(L1, _, X, Y, Z), B next_location(L2,L1),
+B mode(recovery), B safe(L2), B location_coordinate(L2, _, X1, Y1, Z1)} <-
+    -going(L1),
+    print("Movement to location "),
+    print(L1),
+    print(" ended with success."),
+    +going(L2),
+    moveTo(X1, Y1, Z1) ;
+
++at(X, Y) : { B going(L1), ~ B location_coordinate(L1, _, X, Y, _)} <-
+    -going(L1),
+    print("Warning did not reach "),
+    print(L1),
+    stop_moving ;
+
++at(X, Y) : { True } <-
+    print("Warning: Inspection point not handled"),
+    stop_moving ;
+
+
 

@@ -13,6 +13,8 @@ move_base_msgs/MoveBaseAction.h
 -
 actionlib/client/simple_action_client.h
 -
+geometry_msgs/Vector3.h
+-
 
 /opt/ros/noetic/include/actionlib/action_definition.h
 
@@ -299,6 +301,22 @@ geometry_msgs/Pose.h
 -
 
 /opt/ros/noetic/include/geometry_msgs/Quaternion.h
+string
+-
+vector
+-
+memory
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+
+/opt/ros/noetic/include/geometry_msgs/Vector3.h
 string
 -
 vector

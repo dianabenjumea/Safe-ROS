@@ -1,6 +1,9 @@
 <launch>
+
+  <arg name="namespace" default="nav"/>
  
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" ns="$(arg namespace)" output="screen">
+
     <rosparam file="$(find scout_description)/param/4wd/costmap_common_params.yaml" command="load" ns="global_costmap" />
 
     <rosparam file="$(find scout_description)/param/4wd/costmap_common_params.yaml" command="load" ns="local_costmap" />
@@ -13,6 +16,10 @@
 
     <rosparam file="$(find scout_description)/param/4wd/move_base_params.yaml" command="load" />
 
+    <remap from="map" to="/map"/>
+    <remap from="amcl_pose" to="/amcl_pose"/>
+    <remap from="odom" to="/odom"/>
+    <remap from="/cmd_vel" to="/$(arg namespace)/cmd_vel"/>
 
   </node>
 

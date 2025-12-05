@@ -78,32 +78,21 @@
 <!-- end of rosbridge setup -->
 
 
-        <!--  ************** Navigation *************** 
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find scout_description)/param/4wd/costmap_common_params.yaml" command="load" ns="global_costmap" />
-
-    <rosparam file="$(find scout_description)/param/4wd/costmap_common_params.yaml" command="load" ns="local_costmap" />
-
-    <rosparam file="$(find scout_description)/param/4wd/local_costmap_params.yaml" command="load" />
-
-    <rosparam file="$(find scout_description)/param/4wd/global_costmap_params.yaml" command="load" />
-
-    <rosparam file="$(find scout_description)/param/4wd/base_local_planner_params.yaml" command="load" />
-
-    <rosparam file="$(find scout_description)/param/4wd/move_base_params.yaml" command="load" />	
-
-  </node>
--->
 
 <!--  ************** Navigation ***************  -->
+
   <include file="$(find scout_gazebo_sim)/launch/move_base.launch">
-  <remap from="/cmd_vel" to="/cmd_vel_filtered" />
+    <arg name="namespace" value="nav"/>
   </include>
+
+  <include file="$(find scout_gazebo_sim)/launch/move_base.launch">
+    <arg name="namespace" value="agent"/>
+  </include>
+
 
 	<!--  ****** Maps *****  -->
  <node name="map_server" pkg="map_server" type="map_server" args="$(find scout_description)/maps/labMap.yaml" output="screen">
-     <!--  <node name="map_server" pkg="map_server" type="map_server" args="/home/nvidia/map/2.yaml" output="screen">-->
-      <param name="frame_id" value="map"/>
+        <param name="frame_id" value="map"/>
 	</node>
 
 	<node pkg="amcl" type="amcl" name="amcl" output="screen">
@@ -112,6 +101,9 @@
       		<param name="initial_pose_y"            value="0.0"/>
 		<param name="initial_pose_a"            value="0.0"/>
 	</node>
+
+  <!-- python gwendolen movebase scripts -->
+  <node name="movebase_client" output="screen" pkg="gwendolen_move_base" type="gwendolen_move_base.py" />
 
 <!-- ******************** CMD_VEL FILTERING ******************** -->
   <!-- Interceptor Node -->
@@ -128,4 +120,3 @@
   </include>
 
 </launch>
-

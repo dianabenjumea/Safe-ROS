@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/agilex/Safe-ROS/catkin_ws/build
 include scout_ros/scout_msgs/CMakeFiles/_scout_msgs_generate_messages_check_deps_ScoutStatus.dir/progress.make
 
 scout_ros/scout_msgs/CMakeFiles/_scout_msgs_generate_messages_check_deps_ScoutStatus:
-	cd /home/agilex/Safe-ROS/catkin_ws/build/scout_ros/scout_msgs && ../../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py scout_msgs /home/agilex/Safe-ROS/catkin_ws/src/scout_ros/scout_msgs/msg/ScoutStatus.msg scout_msgs/ScoutMotorState:scout_msgs/ScoutLightState:std_msgs/Header:scout_msgs/ScoutDriverState
+	cd /home/agilex/Safe-ROS/catkin_ws/build/scout_ros/scout_msgs && ../../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py scout_msgs /home/agilex/Safe-ROS/catkin_ws/src/scout_ros/scout_msgs/msg/ScoutStatus.msg scout_msgs/ScoutDriverState:std_msgs/Header:scout_msgs/ScoutMotorState:scout_msgs/ScoutLightState
 
 _scout_msgs_generate_messages_check_deps_ScoutStatus: scout_ros/scout_msgs/CMakeFiles/_scout_msgs_generate_messages_check_deps_ScoutStatus
 _scout_msgs_generate_messages_check_deps_ScoutStatus: scout_ros/scout_msgs/CMakeFiles/_scout_msgs_generate_messages_check_deps_ScoutStatus.dir/build.make
