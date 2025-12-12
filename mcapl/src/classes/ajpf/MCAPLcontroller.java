@@ -352,12 +352,6 @@ public class MCAPLcontroller  {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "entering check end");
 		}
 		for (MCAPLAgent ag : agents.values()) {
-			try {
-				scheduler.getActiveJobberNames();
-			} catch (IndexOutOfBoundsException e) {
-				System.err.print(e.getMessage());
-				break;
-			}
 			if (scheduler.getActiveJobberNames().contains(ag.getAgName())) {
 				if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 					AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false");

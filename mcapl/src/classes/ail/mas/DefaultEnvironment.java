@@ -411,25 +411,11 @@ public class DefaultEnvironment implements AILEnv {
     	Set<Predicate> agl = agPercepts.get(agName);
     	Set<Predicate> p = new HashSet<Predicate>();
 
-		boolean succeeded = false;
-		while (! succeeded) {
-			Set<Predicate> tmp_p = new HashSet<>();
-			try {
-				System.err.println("Preepts");
-				System.err.println(percepts);
-				if (!percepts.isEmpty()) { // has global perception?
-					for (Predicate per : percepts) {
-						tmp_p.add((Predicate) per.clone());
-					}
-				}
-				succeeded = true;
-				p.addAll(tmp_p);
-				System.err.println("No Concurrency Error");
-				System.err.println(p);
-			} catch (Exception e) {
-				System.err.println("Concurrency Error");
-			}
-		}
+    	if (! percepts.isEmpty()) { // has global perception?
+    		for (Predicate per: percepts) {
+    			p.add((Predicate) per.clone());
+    		}
+    	}
 
     	if (agl != null) { // add agent personal perception
     		p.addAll(agl);

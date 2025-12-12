@@ -23,44 +23,42 @@
 
 package goal;
 
+import ail.syntax.ast.Abstract_MAS;
 import goal.parser.GOALLexer;
 import goal.parser.GOALParser;
 import goal.syntax.ast.Abstract_GOALAgent;
-import goal.semantics.GOALAgent;
+import gov.nasa.jpf.annotation.MJI;
+import gov.nasa.jpf.vm.ClinitRequired;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.NativePeer;
 import mcaplantlr.runtime.ANTLRFileStream;
 import mcaplantlr.runtime.CommonTokenStream;
-import ail.mas.AgentBuilder;
-import ail.semantics.AILAgent;
-import ail.mas.MAS;
 
-public class GOALAgentBuilder implements AgentBuilder {
-	GOALAgent agent;
-	
-	Abstract_GOALAgent abs_agent;
-	
-	public GOALAgentBuilder() {}
+public class JPF_goal_GOALAgentBuilder extends NativePeer {
 
-	@Override
-	public AILAgent getAgent(String filename) {
-		//System.err.println("GOALAGENTBUILDER: A");
-		parsefile(filename);
-		//System.err.println("GOALAGENTBUILDER: b");
-		agent = abs_agent.toMCAPL();
 
-		return agent;
-	}
+	@MJI
+	public static void parsefile__Ljava_lang_String_2__ (MJIEnv env, int objref, int masRef) {
+		String masstring = env.getStringObject(masRef);
+		//System.err.println("GOAL AGEMT BUILDER PEER B");
+ 		try {
+			//GOALLexer lexer = new GOALLexer(new ANTLRFileStream(masstring));
+			//CommonTokenStream tokens = new CommonTokenStream(lexer);
+			//GOALParser parser = new GOALParser(tokens);
+			//abs_agent = parser.goalagent();
 
-	
-	public void parsefile(String masstring) {
-		try {
-			GOALLexer lexer = new GOALLexer(new ANTLRFileStream(masstring));
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			GOALParser parser = new GOALParser(tokens);
-    		abs_agent = parser.goalagent();
-     	} catch (Exception e) {
-     		e.printStackTrace();
-    	}
+ 			GOALLexer lexer = new GOALLexer(new ANTLRFileStream(masstring));
+ 	    	CommonTokenStream tokens = new CommonTokenStream(lexer);
+ 	    	GOALParser parser = new GOALParser(tokens);
+			Abstract_GOALAgent abs_agent = (Abstract_GOALAgent) parser.goalagent();
+			int ref = abs_agent.newJPFObject(env);
+			env.setReferenceField(objref, "abs_agent", ref);
+		} catch (ClinitRequired e) {
+			env.repeatInvocation();
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
-
 }

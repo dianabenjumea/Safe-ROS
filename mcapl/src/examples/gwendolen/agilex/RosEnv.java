@@ -3,11 +3,6 @@ package gwendolen.agilex;
 import ail.mas.DefaultEnvironment;
 import ail.syntax.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import ail.util.AILexception;
 import com.fasterxml.jackson.databind.JsonNode;
 import ros.Publisher;
 import ros.RosBridge;
@@ -15,13 +10,14 @@ import ros.RosListenDelegate;
 import ros.SubscriptionRequestMsg;
 import ros.msgs.std_msgs.PrimitiveMsg;
 import ros.msgs.geometry_msgs.Vector3;
-import ros.msgs.move_base_msgs.MoveBaseActionResult;
-import ros.tools.MessageUnpacker;
+
 
 /**
  * ROS Environment for agilex_agent
  * Connects Gwendolen agent with ROS topics and services.
  */
+
+
 public class RosEnv extends DefaultEnvironment {
 
     private static final String ROS_URL = "ws://localhost:9090";
@@ -41,8 +37,7 @@ public class RosEnv extends DefaultEnvironment {
     private final Publisher goalPublisher;
 
     private boolean currentlyTooClose = false;
-    boolean goingDoor = false;
-    int currentLoc = 0;
+
 
     public RosEnv() {
         super();
@@ -76,24 +71,6 @@ public class RosEnv extends DefaultEnvironment {
                 SubscriptionRequestMsg.generate(AGENT_GOAL_REACHED_TOPIC).setType(GOAL_REACHED_TYPE),
                 (data, rep) -> handleVisitedPoint(data)
         );
-
-  //      bridge.subscribe(SubscriptionRequestMsg.generate("agent/move_base/result")
-  //                      .setType("move_base_msgs/MoveBaseActionResult"),
-
-  //              new RosListenDelegate() {
-  //                  public void receive(JsonNode data, String stringRep) {
-  //                      MessageUnpacker<MoveBaseActionResult> unpacker = new MessageUnpacker<MoveBaseActionResult>(MoveBaseActionResult.class);
-  //                      MoveBaseActionResult msg = unpacker.unpackRosMessage(data);
-  //                      clearPercepts();
-
-//                        Literal movebase_result = new Literal("movebase_result");
-//                        movebase_result.addTerm(new NumberTermImpl(msg.header.seq));
-//                        movebase_result.addTerm(new NumberTermImpl(msg.status.status));
-//                        addPercept(movebase_result);
-//                        System.out.println("movebase_result: " + movebase_result);
-//                    }
- //               }
-   //     );
 
     }
 
@@ -158,7 +135,6 @@ public class RosEnv extends DefaultEnvironment {
     }
 
     private void sendStopSignal(boolean stop) {
-        // std_msgs/Bool is commonly represented as a Primitive bool in simple ros java wrappers
         PrimitiveMsg<Boolean> msg = new PrimitiveMsg<>(stop);
         stopPublisher.publish(msg);
         System.out.println("Published stop signal: " + stop);

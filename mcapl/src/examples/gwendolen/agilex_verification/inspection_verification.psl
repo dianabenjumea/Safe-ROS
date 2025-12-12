@@ -1,2 +1,32 @@
-R1: [] (B(agilex_agent,stop_moving) -> <> B(agilex_agent,stopped))
-R2:
+1: [] ((B(agilex_agent,mode(normal)) & B(agilex_agent,going(wp1)) & P(too_close)) ->
+        <> (D(agilex_agent,stop_moving) & ~B(agilex_agent,safe(wp1)) & B(agilex_agent,mode(recovery))))
+1a: [] ((B(agilex_agent,mode(normal)) & B(agilex_agent,going(wp1)) & P(too_close)) -> <> D(agilex_agent,stop_moving))
+1b: [] ((B(agilex_agent,mode(normal)) & B(agilex_agent,going(wp1)) & P(too_close)) -> <> ~B(agilex_agent,safe(wp1)))
+1c: [] ((B(agilex_agent,mode(normal)) & B(agilex_agent,going(wp1)) & P(too_close)) -> <> B(agilex_agent,mode(recovery)))
+
+
+2: [] ((B(agilex_agent,mode(recovery)) & B(agilex_agent,going(L1)) & B(agilex_agent,next_location(L2,L1)) &
+        B(agilex_agent,safe(L2)) & B(agilex_agent,location_coordinate(L2,N2,X2,Y2,Z2)))
+       -> <> (~B(agilex_agent,going(L1)) & B(agilex_agent,going(L2)) & D(agilex_agent,moveTo(X2,Y2,Z2))))
+2a: [] ((B(agilex_agent,mode(recovery)) & B(agilex_agent,going(L1)) & B(agilex_agent,next_location(L2,L1)) &
+         B(agilex_agent,safe(L2)) &  B(agilex_agent,location_coordinate(L2,N2,X2,Y2,Z2)))
+        -> <> ~B(agilex_agent,going(L1)))
+2b: [] ((B(agilex_agent,mode(recovery)) & B(agilex_agent,going(L1)) & B(agilex_agent,next_location(L2,L1)) &
+         B(agilex_agent,safe(L2)) &  B(agilex_agent,location_coordinate(L2,N2,X2,Y2,Z2)))
+        -> <> B(agilex_agent,going(L2)))
+2c: [] ((B(agilex_agent,mode(recovery)) & B(agilex_agent,going(L1)) & B(agilex_agent,next_location(L2,L1)) &
+         B(agilex_agent,safe(L2)) &  B(agilex_agent,location_coordinate(L2,N2,X2,Y2,Z2)))
+        -> <> D(agilex_agent,moveTo(X2,Y2,Z2)))
+
+3: [] ((P(agilex_agent,robot_at(X1,Y1)) & B(agilex_agent,going(L1)) & B(agilex_agent,location_coordinate(L1,N1,X1,Y1,Z1)) &
+        B(agilex_agent,next_location(L1,L2)) & B(agilex_agent,mode(normal)))
+       -> <> (~B(agilex_agent,going(L1)) & B(agilex_agent,safe(L1)) & B(agilex_agent,going(L2))))
+3a: [] ((P(agilex_agent,robot_at(X1,Y1)) & B(agilex_agent,going(L1)) & B(agilex_agent,location_coordinate(L1,N1,X1,Y1,Z1)) &
+        B(agilex_agent,next_location(L1,L2)) & B(agilex_agent,mode(normal)))
+       -> <> ~B(agilex_agent,going(L1))
+3b: [] ((P(agilex_agent,robot_at(X1,Y1)) & B(agilex_agent,going(L1)) & B(agilex_agent,location_coordinate(L1,N1,X1,Y1,Z1)) &
+        B(agilex_agent,next_location(L1,L2)) & B(agilex_agent,mode(normal)))
+       -> <> B(agilex_agent,safe(L1))
+3c: [] ((P(agilex_agent,robot_at(X1,Y1)) & B(agilex_agent,going(L1)) & B(agilex_agent,location_coordinate(L1,N1,X1,Y1,Z1)) &
+        B(agilex_agent,next_location(L1,L2)) & B(agilex_agent,mode(normal)))
+       -> <> B(agilex_agent,going(L2)))

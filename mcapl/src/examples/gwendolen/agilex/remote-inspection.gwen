@@ -3,35 +3,39 @@ GWENDOLEN
 :name: agilex_agent
 
 :Initial Beliefs:
-mode(normal)
 
+mode(normal)                                                //The robot starts in normal operation mode
 location_coordinate(0,door,0.0,0.0,0.0)
 location_coordinate(1,inspectionPoint1,2.3,-1.11,0.0)
 location_coordinate(2,inspectionPoint2,-3,-1.5,0.0)
 location_coordinate(3,inspectionPoint3,2.61,2.43,0.0)
-
 next_location(0,1)
 next_location(1,2)
 next_location(2,3)
-
 going(1)
 safe(0)
 
-
 :Reasoning Rules:
 
-
+safe :- ~too_close, mode(normal);
 
 :Initial Goals:
 
+safe_mission [achieve]
 
 :Plans:
+
++!safe_mission [achieve] : {B going(0), B safe} <- +mission_safely_completed;
++mission_safely_completed : {True} <- print(missionCompleted);
+
 +too_close : { B mode(normal), B going(WP) } <-
+    +.lock,
     print("Too Close Received"),
     stop_moving,
     -safe(WP),
     -mode(normal),
-    +mode(recovery);
+    +mode(recovery),
+    -.lock;
 
 +mode(recovery) : { B going(L1), B next_location(L2, L1), B safe(L2), B location_coordinate(L2, _, X, Y, Z)} <-
     -going(L1),
