@@ -4,7 +4,7 @@ GWENDOLEN
 
 :Initial Beliefs:
 
-mode(normal)                                                //The robot starts in normal operation mode
+mode(normal)
 location_coordinate(0,door,0.0,0.0,0.0)
 location_coordinate(1,inspectionPoint1,2.3,-1.11,0.0)
 location_coordinate(2,inspectionPoint2,-3,-1.5,0.0)
@@ -15,18 +15,10 @@ next_location(2,3)
 going(1)
 safe(0)
 
-:Reasoning Rules:
-
-safe :- ~too_close, mode(normal);
-
 :Initial Goals:
 
-safe_mission [achieve]
 
 :Plans:
-
-+!safe_mission [achieve] : {B going(0), B safe} <- +mission_safely_completed;
-+mission_safely_completed : {True} <- print(missionCompleted);
 
 +too_close : { B mode(normal), B going(WP) } <-
     +.lock,
@@ -37,9 +29,11 @@ safe_mission [achieve]
     +mode(recovery),
     -.lock;
 
+
 +mode(recovery) : { B going(L1), B next_location(L2, L1), B safe(L2), B location_coordinate(L2, _, X, Y, Z)} <-
     -going(L1),
     +going(L2),
+    print("Recovery Mode"),
     moveTo(X,Y,Z);
 
 
@@ -50,6 +44,7 @@ safe_mission [achieve]
     print(" ended with success."),
     +safe(L1),
     +going(L2);
+
 
 +at(X, Y) : { B going(L1), B location_coordinate(L1, _, X, Y, Z), B next_location(L2,L1),
 B mode(recovery), B safe(L2), B location_coordinate(L2, _, X1, Y1, Z1)} <-
@@ -69,6 +64,7 @@ B mode(recovery), B safe(L2), B location_coordinate(L2, _, X1, Y1, Z1)} <-
 +at(X, Y) : { True } <-
     print("Warning: Inspection point not handled"),
     stop_moving ;
+
 
 
 

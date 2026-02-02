@@ -2,56 +2,69 @@ package gwendolen.agilex_verification;
 
 import java.util.HashSet;
 import java.util.Set;
-import ail.syntax.*;
 
-import ail.syntax.Literal;
 import ail.syntax.Message;
 import ail.syntax.Predicate;
-import ail.syntax.VarTerm;
+import ail.syntax.NumberTermImpl;
 import gwendolen.mas.VerificationofAutonomousSystemsEnvironment;
 
+public class inspectionVerificationEnv
+        extends VerificationofAutonomousSystemsEnvironment {
 
-public class inspectionVerificationEnv extends VerificationofAutonomousSystemsEnvironment {
+
 
     @Override
     public Set<Predicate> generate_percepts() {
+
         Set<Predicate> beliefs = new HashSet<Predicate>();
 
-        // Random boolean to simulate "too close"
-        boolean currentlyTooClose = random_bool_generator.nextBoolean();
+        // Nondeterministic environment conditions
+        boolean tooClose = random_bool_generator.nextBoolean();
+        boolean reached_location = random_bool_generator.nextBoolean();
+        int at_location = random_int_generator.nextInt(4);
 
-        // Array of possible location coordinates
-        float[][] locationCoordinates = {
-                {0.0f, 0.0f, 0.0f},
-                {-1.11f, 0.0f, 0.0f},
-                {-3.0f, -1.5f, 0.0f},
-                {2.61f, 2.43f, 0.0f}
-        };
+        System.out.println("[ENV] Current target waypoint: " + at_location);
+        System.out.println("[ENV] too_close = " + tooClose);
 
-        // Pick a random visited point
-        int idx = random_int_generator.nextInt(4);
-        float[] visitedPoint = locationCoordinates[idx];
-
-        // Add "too_close" percept if applicable
-        if (currentlyTooClose) {
+        // Obstacle percept
+        if (tooClose) {
             beliefs.add(new Predicate("too_close"));
+            System.out.println("[ENV]  -> Percept generated: too_close");
         }
 
-        // Add the visited point
-        if (visitedPoint != null) {
-            Predicate safeLit = new Predicate("at");
-            safeLit.addTerm(new NumberTermImpl(visitedPoint[0]));
-            safeLit.addTerm(new NumberTermImpl(visitedPoint[1]));
-            safeLit.addTerm(new NumberTermImpl(visitedPoint[2]));
-            beliefs.add(safeLit);
+        if (reached_location) {
+            //generate at(X,Y)
+            Predicate at = new Predicate("at");
+            if (at_location == 0){
+                at.addTerm(new NumberTermImpl(2.3));
+                at.addTerm(new NumberTermImpl(-1.11));
+                beliefs.add(at);
+                System.out.println("[ENV]  -> Percept generated: " + at);
+            } else if (at_location == 1){
+                at.addTerm(new NumberTermImpl(2.3));
+                at.addTerm(new NumberTermImpl(-1.11));
+                beliefs.add(at);
+                System.out.println("[ENV]  -> Percept generated: " + at);
+            } else if (at_location == 2){
+                at.addTerm(new NumberTermImpl(-3.0));
+                at.addTerm(new NumberTermImpl(-1.5));
+                beliefs.add(at);
+                System.out.println("[ENV]  -> Percept generated: " + at);
+            } else if (at_location == 3) {
+                at.addTerm(new NumberTermImpl(2.3));
+                at.addTerm(new NumberTermImpl(-1.11));
+                beliefs.add(at);
+                System.out.println("[ENV]  -> Percept generated: " + at);
+            }
         }
+
 
         return beliefs;
     }
 
     @Override
     public Set<Message> generate_messages() {
-        return new HashSet<Message>();
+        return new HashSet<>();
     }
 }
 

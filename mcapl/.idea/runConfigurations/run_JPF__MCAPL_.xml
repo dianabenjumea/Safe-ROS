@@ -5,6 +5,7 @@
     <option name="MAIN_CLASS_NAME" value="gov.nasa.jpf.tool.RunJPF" />
     <module name="mcapl" />
     <option name="PROGRAM_PARAMETERS" value="$FilePath$" />
+    <option name="VM_PARAMETERS" value="-Xmx8G" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
