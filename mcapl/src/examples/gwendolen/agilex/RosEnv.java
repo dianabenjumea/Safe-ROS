@@ -11,6 +11,9 @@ import ros.SubscriptionRequestMsg;
 import ros.msgs.std_msgs.PrimitiveMsg;
 import ros.msgs.geometry_msgs.Vector3;
 
+import java.util.Map;
+import java.util.HashMap;
+
 
 /**
  * ROS Environment for agilex_agent
@@ -74,33 +77,78 @@ public class RosEnv extends DefaultEnvironment {
 
     }
 
+    private static class Location {
+        int id;
+        double x, y, z;
+
+        Location(int id, double x, double y, double z) {
+            this.id = id;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+    }
+
+    private final Map<Integer, Location> LOCATIONS = new HashMap<>();
+    {
+        LOCATIONS.put(0, new Location(0, 0.0, 0.0, 0.0));
+        LOCATIONS.put(1, new Location(1, 2.3, -1.11, 0.0));
+        LOCATIONS.put(2, new Location(2, -3.0, -1.5, 0.0));
+        LOCATIONS.put(3, new Location(3, 2.61, 2.43, 0.0));
+    }
+
+
+
+    private int findLocationId(double x, double y) {
+        final double EPS = 0.3;  // tolerance in meters
+
+        for (Location loc : LOCATIONS.values()) {
+            double dx = x - loc.x;
+            double dy = y - loc.y;
+            if (Math.hypot(dx, dy) < EPS) {
+                return loc.id;
+            }
+        }
+        return -1; // unknown location
+    }
+
+
+
     private void handleVisitedPoint(JsonNode data) {
         boolean succeeded = false;
-        while (! succeeded) {
+
+        while (!succeeded) {
             try {
                 JsonNode msg = data.get("msg");
                 double x = msg.get("x").asDouble();
                 double y = msg.get("y").asDouble();
 
-                // Create latest visited inspection point  predicate
-                Predicate oldSafeLit = new Predicate("at");
-                oldSafeLit.addTerm(new VarTerm("X"));
-                oldSafeLit.addTerm(new VarTerm("Y"));
-                removeUnifiesPercept(oldSafeLit);
-                Predicate safeLit = new Predicate("at");
-                safeLit.addTerm(new NumberTermImpl(x));
-                safeLit.addTerm(new NumberTermImpl(y));
-                addPercept(safeLit);
+                int locationId = findLocationId(x, y);
+                if (locationId == -1) {
+                    System.out.println("Unknown location: (" + x + "," + y + ")");
+                    return;
+                }
 
-                System.out.println("Robot location: " + safeLit);
-                System.err.println(percepts);
+                // Remove old at(_) percept
+                Predicate oldAt = new Predicate("at");
+                oldAt.addTerm(new VarTerm("X"));
+                removeUnifiesPercept(oldAt);
+
+                // Add new at(ID)
+                Predicate at = new Predicate("at");
+                at.addTerm(new NumberTermImpl(locationId));
+                addPercept(at);
+
+                System.out.println("Robot at location: " + locationId);
                 succeeded = true;
+
             } catch (Exception e) {
                 e.printStackTrace();
                 System.err.println("ROS concurrency error");
             }
         }
     }
+
 
 
 
@@ -145,11 +193,22 @@ public class RosEnv extends DefaultEnvironment {
      * Send a Vector3 goal to /gwendolen_goal
      * (Python bridge will forward to /gwendolen_goal action server)
      */
-    public void moveTo(double x, double y, double z) {
-        Vector3 goal = new Vector3(x, y, z);
+    public void moveTo(int pointId) {
+        Location loc = LOCATIONS.get(pointId);
+        if (loc == null) {
+            System.err.println("Unknown target point: " + pointId);
+            return;
+        }
+
+        Vector3 goal = new Vector3(loc.x, loc.y, loc.z);
         goalPublisher.publish(goal);
-        System.out.printf("Published Vector3 goal: x=%.2f, y=%.2f, z=%.2f%n", x, y, z);
+
+        System.out.printf(
+                "Moving to point %d → x=%.2f, y=%.2f, z=%.2f%n",
+                pointId, loc.x, loc.y, loc.z
+        );
     }
+
 
     @Override
     public Unifier executeAction(String agName, Action act) {
@@ -160,11 +219,10 @@ public class RosEnv extends DefaultEnvironment {
                 break;
             case "moveTo":
                 printAction(act);
-                double x = ((NumberTerm) act.getTerm(0)).solve();
-                double y = ((NumberTerm) act.getTerm(1)).solve();
-                double z = ((NumberTerm) act.getTerm(2)).solve();
-                moveTo(x, y, z);
-                System.out.printf("moveTo -> (%.2f, %.2f, %.2f)\n", x, y, z);
+
+                int pointId = (int) ((NumberTerm) act.getTerm(0)).solve();
+                moveTo(pointId);
+                System.out.printf("move_to -> point %d%n", pointId);
                 break;
         }
 

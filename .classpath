@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="java_rosbridge/src"/>
+	<classpathentry kind="src" path="mcapl/src/classes"/>
+	<classpathentry kind="src" path="mcapl/src/examples"/>
+	<classpathentry kind="src" path="mcapl/src/main"/>
+	<classpathentry kind="src" path="mcapl/src/peers"/>
+	<classpathentry kind="src" path="mcapl/src/tests"/>
+	<classpathentry kind="lib" path="java_rosbridge/target/java_rosbridge-2.0.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="java_rosbridge/target/java_rosbridge-2.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="java_rosbridge/target/java_rosbridge-2.0.2.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/antlr-4.13.2-complete.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/antlr-4.7-complete.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/eis-0.7.0.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/ev3classes.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/ev3tools.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/guava-31.1-jre.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/java_rosbridge_all.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/java-prolog-parser.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/jpf-annotations.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/jpf-classes.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/jpf.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/jpl.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/junit-4.10.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/mapdbWrapper.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/RunJPF.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/3rdparty/system-rules-1.16.0.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/eis/blocksworld-1.3.0.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/eis/tower-1.4.1.jar"/>
+	<classpathentry kind="lib" path="mcapl/lib/instrumented-GwendolenSyntaxHighlighting-0.0.1.jar"/>
+	<classpathentry kind="output" path="java_rosbridge/target/classes"/>
+</classpath>
