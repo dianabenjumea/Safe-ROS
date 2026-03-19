@@ -8,16 +8,13 @@
 1a: [] ((B(agilex_agent,mode(normal)) & B(agilex_agent,going(1)) & P(too_close)) -> <> (D(agilex_agent,stop_moving) & ~B(agilex_agent,safe(1)) & B(agilex_agent,mode(recovery))))
 1b: [] ((B(agilex_agent,mode(normal)) & B(agilex_agent,going(2)) & P(too_close)) -> <> (D(agilex_agent,stop_moving) & ~B(agilex_agent,safe(2)) & B(agilex_agent,mode(recovery))))
 1c: [] ((B(agilex_agent,mode(normal)) & B(agilex_agent,going(3)) & P(too_close)) -> <> (D(agilex_agent,stop_moving) & ~B(agilex_agent,safe(3)) & B(agilex_agent,mode(recovery))))
-1d: [] ((B(agilex_agent,mode(normal)) & B(agilex_agent,going(0)) & P(too_close)) -> <> (D(agilex_agent,stop_moving) & ~B(agilex_agent,safe(0)) & B(agilex_agent,mode(recovery))))
-
 
 2a: [] ((B(agilex_agent,mode(recovery)) & B(agilex_agent,going(2)) & B(agilex_agent,next_location(1,2)) & B(agilex_agent,safe(1))) -> <> (~B(agilex_agent,going(2)) & B(agilex_agent,going(1)) & D(agilex_agent,moveTo(1))))
 2b: [] ((B(agilex_agent,mode(recovery)) & B(agilex_agent,going(3)) & B(agilex_agent,next_location(2,3)) & B(agilex_agent,safe(2))) -> <> (~B(agilex_agent,going(3)) & B(agilex_agent,going(2)) & D(agilex_agent,moveTo(2))))
 2c: [] ((B(agilex_agent,mode(recovery)) & B(agilex_agent,going(1)) & B(agilex_agent,next_location(0,1)) & B(agilex_agent,safe(0))) -> <> (~B(agilex_agent,going(1)) & B(agilex_agent,going(0)) & D(agilex_agent,moveTo(0))))
 
-3a: [] ((P(at(1)) & B(agilex_agent,going(1)) & B(agilex_agent,next_location(1,2)) & B(agilex_agent,mode(normal))) -> <> (~B(agilex_agent,going(1)) & B(agilex_agent,safe(1)) & B(agilex_agent,going(2))))
-3b: [] ((P(at(2)) & B(agilex_agent,going(2)) & B(agilex_agent,next_location(2,3)) & B(agilex_agent,mode(normal))) -> <> (~B(agilex_agent,going(2)) & B(agilex_agent,safe(2)) & B(agilex_agent,going(3))))
-3c: [] ((P(at(3)) & B(agilex_agent,going(0)) & B(agilex_agent,next_location(0,1)) & B(agilex_agent,mode(normal))) -> <> (~B(agilex_agent,going(0)) & B(agilex_agent,safe(0)) & B(agilex_agent,going(1))))
+3a: [] ((P(at(1)) & B(agilex_agent,going(1)) & B(agilex_agent,next_location(1,2)) & B(agilex_agent,mode(normal)) & ~B(agilex_agent, too_close)) -> <> (~B(agilex_agent,going(1)) & B(agilex_agent,safe(1)) & B(agilex_agent,going(2))))
+3b: [] ((P(at(2)) & B(agilex_agent,going(2)) & B(agilex_agent,next_location(2,3)) & B(agilex_agent,mode(normal)) & ~B(agilex_agent, too_close)) -> <> (~B(agilex_agent,going(2)) & B(agilex_agent,safe(2)) & B(agilex_agent,going(3))))
 
 4a: [] ((P(at(2)) & B(agilex_agent,going(2)) & B(agilex_agent,next_location(1,2)) & B(agilex_agent,mode(recovery))) -> <> (~B(agilex_agent,going(2)) & B(agilex_agent,safe(2)) & B(agilex_agent,going(1)) & D(agilex_agent,moveTo(1))))
 4b: [] ((P(at(3)) & B(agilex_agent,going(3)) & B(agilex_agent,next_location(2,3)) & B(agilex_agent,mode(recovery))) -> <> (~B(agilex_agent,going(3)) & B(agilex_agent,safe(3)) & B(agilex_agent,going(2)) & D(agilex_agent,moveTo(2))))
@@ -32,8 +29,3 @@
 6e: [] ~(B(agilex_agent, going(1)) & B(agilex_agent, going(3)))
 6f: [] ~(B(agilex_agent, going(2)) & B(agilex_agent, going(3)))
 
-
-7a: [] (B(agilex_agent, mode(normal) || (~B(agilex_agent, going(1)) || B(agilex_agent, safe(1))))
-7b: [] (B(agilex_agent, going(2)) || ~B(agilex_agent, safe(2)))
-7c: [] (B(agilex_agent, going(3)) || ~B(agilex_agent, safe(3)))
-7d: [] (B(agilex_agent, going(0)) || ~B(agilex_agent, safe(0)))

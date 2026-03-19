@@ -23,34 +23,38 @@ safe(0)
     -safe(WP),
     -mode(normal),
     +mode(recovery),
+    +!recover[achieve],
     -.lock;
 
-
-+mode(recovery) : { B going(L1), B next_location(L2, L1), B safe(L2)} <-
-    -going(L1),
-    +going(L2),
++!recover[achieve] : {B mode(recovery), B going(L2), B next_location(L1, L2), B safe(L1)} <-
+    +.lock,
+    -going(L2),
+    +going(L1),
     print("Recovery Mode"),
-    moveTo(L2);
+    moveTo(L1),
+    -.lock;
 
-
-+at(L1) : { B going(L1), B next_location(L1,L2), B mode(normal) } <-
-    -going(L1),
-    print("Movement to location "),
-    print(L1),
-    print(" ended with success."),
-    +safe(L1),
-    +going(L2);
-
-
-+at(L1) : { B going(L1), B next_location(L2,L1),
-B mode(recovery)} <-
++at(L1) : { B going(L1), B next_location(L1,L2), B mode(normal)} <-
+    +.lock,
     -going(L1),
     print("Movement to location "),
     print(L1),
     print(" ended with success."),
     +safe(L1),
     +going(L2),
-    moveTo(L2) ;
+     -.lock;
+
+
++at(0) : {B going(0), B next_location(0, L1), B mode(recovery)} <-
+    +.lock,
+    +safe(0),
+    +recover,
+   -.lock;
+
++at(L2) : { B going(L2), B next_location(L1,L2), B mode(recovery)} <-
+    +.lock,
+    +safe(L2),
+    -.lock;
 
 
 

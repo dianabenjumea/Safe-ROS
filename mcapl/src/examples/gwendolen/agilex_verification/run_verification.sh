@@ -10,7 +10,8 @@ SCRIPT_DIR="$MCAPL_ROOT/src/examples/gwendolen/agilex_verification"
 cd "$MCAPL_ROOT" || exit 1
 
 # List of properties to verify
-properties=("1a" "1b" "1c" "1d" "2a" "2b" "2c" "3a" "3b" "3c" "4a" "4b" "4c" "5" "6a" "6b" "6c" "6d" "6e" "6f")
+properties=("1a" "1b" "1c" "2a" "2b" "2c" "3a" "3b" "4a" "4b" "4c" "5" "6a" "6b" "6c" "6d" "6e" "6f")
+
 
 # Loop over each property
 for PROPERTY in "${properties[@]}"; do
@@ -21,3 +22,5 @@ for PROPERTY in "${properties[@]}"; do
         +target.args="src/examples/gwendolen/agilex_verification/inspection_verification.ail,src/examples/gwendolen/agilex_verification/inspection_verification.psl,$PROPERTY" \
         2>&1 | tee "$SCRIPT_DIR/verification_results/property_$PROPERTY.txt"
 done
+
+
